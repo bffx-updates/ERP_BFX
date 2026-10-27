@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#eef0f3" />
+    <title>BFX Technologies ERP</title>
+    <script>
+      // Tema claro por padrão; escuro só se a pessoa escolheu (ver src/ui/tema.tsx).
+      // Aplicado antes da primeira pintura para a tela não piscar.
+      var tema = "claro";
+      try {
+        if (localStorage.getItem("bfx.tema") === "escuro") tema = "escuro";
+      } catch (e) {}
+      if (tema === "claro") document.documentElement.dataset.tema = "claro";
+      else document.querySelector('meta[name="theme-color"]').setAttribute("content", "#0b0c0f");
+    </script>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0c0f'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23ff9d2e'/%3E%3Ccircle cx='13.5' cy='13.5' r='2' fill='%23fff' fill-opacity='.7'/%3E%3C/svg%3E"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
