@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:"IBM Plex Sans",system-ui,sans-serif}a{color:#2a78d6}a:hover{color:#1a5aa8}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tid:hover{color:#fff}.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-oid:hover{color:#1a1a1a}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 system-ui,sans-serif;color:rgba(0,0,0,.55)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(0,0,0,.5)}@keyframes led{0%,100%{opacity:1}50%{opacity:.35}}</style></helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Três direções para o dashboard — tema escuro de estúdio</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Console — placar em cima, um card por modelo, lista do que comprar agora</div>
+<div class="dv-card" style="width:860px;border:1px solid #23262c">
+<div style="background:#0c0e11;color:#eceff4;padding:22px 24px 26px;font-family:'IBM Plex Sans',sans-serif">
+
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:22px">
+<div style="width:34px;height:34px;border-radius:9px;background:linear-gradient(145deg,#ffb02e,#e07b12);display:flex;align-items:center;justify-content:center;font:700 13px 'Space Grotesk',sans-serif;color:#20160a">BF</div>
+<div style="flex:1;min-width:0">
+<div style="font:600 16px/1.2 'Space Grotesk',sans-serif;letter-spacing:.2px">Lote de junho</div>
+<div style="font-size:11.5px;color:#8a94a2;margin-top:3px">5 × 8SW+ · 8 × NANO+ · começou em 3 de junho</div>
+</div>
+<button style="padding:9px 16px;border-radius:9px;border:1px solid #2c313a;background:#181c22;color:#c6cdd8;font:500 12.5px 'IBM Plex Sans',sans-serif;cursor:pointer" style-hover="border-color:#3a4150;color:#eceff4">Exportar</button>
+<button style="padding:9px 18px;border-radius:9px;border:0;background:#ffb02e;color:#1d1406;font:600 12.5px 'IBM Plex Sans',sans-serif;cursor:pointer;white-space:nowrap;box-shadow:0 2px 12px rgba(255,176,46,.25)" style-hover="background:#ffc157">+ Registrar compra</button>
+</div>
+
+<div style="background:#14171b;border:1px solid #23272f;border-radius:14px;padding:20px 22px;margin-bottom:16px">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:12px">
+<div><div style="font:600 12px 'IBM Plex Sans',sans-serif;color:#8a94a2">Você já comprou</div>
+<div style="font:600 34px/1 'Space Grotesk',sans-serif;margin-top:6px">64<span style="font-size:20px;color:#8a94a2">%</span> <span style="font:400 13px 'IBM Plex Mono',monospace;color:#8a94a2;margin-left:6px;white-space:nowrap">198 de 311 peças</span></div></div>
+<div style="text-align:right"><div style="font:600 12px 'IBM Plex Sans',sans-serif;color:#8a94a2">Faltam</div><div style="font:600 22px/1 'Space Grotesk',sans-serif;color:#ffb02e;margin-top:8px">113 peças</div></div>
+</div>
+<div style="height:10px;border-radius:20px;background:#1d2128;overflow:hidden;display:flex">
+<div style="width:64%;background:linear-gradient(90deg,#56d364,#8ce99a)"></div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">
+<div style="background:#14171b;border:1px solid #23272f;border-radius:12px;padding:15px 16px">
+<div style="font:500 10.5px 'IBM Plex Sans',sans-serif;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2">Gasto no lote</div>
+<div style="font:600 24px/1 'Space Grotesk',sans-serif;margin-top:9px">R$ 2.847<span style="color:#8a94a2;font-size:15px">,30</span></div>
+</div>
+<div style="background:#14171b;border:1px solid #23272f;border-radius:12px;padding:15px 16px">
+<div style="font:500 10.5px 'IBM Plex Sans',sans-serif;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2">Peças completas</div>
+<div style="font:600 24px/1 'Space Grotesk',sans-serif;margin-top:9px;color:#56d364">9 <span style="color:#8a94a2;font-size:15px">de 17</span></div>
+</div>
+<div style="background:#14171b;border:1px solid #23272f;border-radius:12px;padding:15px 16px">
+<div style="font:500 10.5px 'IBM Plex Sans',sans-serif;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2">Compras registradas</div>
+<div style="font:600 24px/1 'Space Grotesk',sans-serif;margin-top:9px">23 <span style="color:#8a94a2;font-size:15px">em 12 dias</span></div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+<div style="background:#14171b;border:1px solid #23272f;border-radius:14px;padding:18px">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+<img src="8SW.svg" alt="BFMiDi 8SW+" style="width:52px;height:42px;object-fit:contain;background:#1d2128;border:1px solid #262b33;border-radius:8px;padding:4px">
+<div style="flex:1"><div style="font:600 15px 'Space Grotesk',sans-serif">BFMiDi 8SW+</div><div style="font-size:11.5px;color:#8a94a2;margin-top:2px">5 unidades · 13 peças</div></div>
+<div style="position:relative;width:46px;height:46px">
+<svg viewBox="0 0 40 40" style="width:46px;height:46px;transform:rotate(-90deg)"><circle cx="20" cy="20" r="16" fill="none" stroke="#1d2128" stroke-width="5"></circle><circle cx="20" cy="20" r="16" fill="none" stroke="#56d364" stroke-width="5" stroke-linecap="round" stroke-dasharray="100.5" stroke-dashoffset="29"></circle></svg>
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 11px 'IBM Plex Mono',monospace">71%</div>
+</div>
+</div>
+<div style="display:flex;gap:22px;padding-bottom:14px;border-bottom:1px solid #23272f">
+<div><div style="font-size:10.5px;color:#8a94a2;text-transform:uppercase;letter-spacing:.8px">Custo / unidade</div><div style="font:600 19px 'Space Grotesk',sans-serif;margin-top:5px;color:#ffb02e">R$ 214,90</div></div>
+<div><div style="font-size:10.5px;color:#8a94a2;text-transform:uppercase;letter-spacing:.8px">Gasto</div><div style="font:600 19px 'Space Grotesk',sans-serif;margin-top:5px">R$ 1.611</div></div>
+</div>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:9px">
+<div style="font-size:11px;color:#8a94a2">Ainda falta</div>
+<div style="display:flex;align-items:center;gap:9px;font-size:12.5px"><span style="flex:1">Chave SPST</span><span style="font:500 12px 'IBM Plex Mono',monospace;color:#ffb02e">12</span><div style="width:76px;height:5px;border-radius:9px;background:#1d2128;overflow:hidden"><div style="width:70%;height:100%;background:#56d364"></div></div></div>
+<div style="display:flex;align-items:center;gap:9px;font-size:12.5px"><span style="flex:1">Display ST7796S</span><span style="font:500 12px 'IBM Plex Mono',monospace;color:#ffb02e">3</span><div style="width:76px;height:5px;border-radius:9px;background:#1d2128;overflow:hidden"><div style="width:40%;height:100%;background:#56d364"></div></div></div>
+<div style="display:flex;align-items:center;gap:9px;font-size:12.5px"><span style="flex:1">Caixa Metal 8SW+</span><span style="font:500 12px 'IBM Plex Mono',monospace;color:#ffb02e">5</span><div style="width:76px;height:5px;border-radius:9px;background:#1d2128;overflow:hidden"><div style="width:0%;height:100%;background:#56d364"></div></div></div>
+</div>
+</div>
+
+<div style="background:#14171b;border:1px solid #23272f;border-radius:14px;padding:18px">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+<img src="NANO.svg" alt="BFMiDi NANO+" style="width:52px;height:42px;object-fit:contain;background:#1d2128;border:1px solid #262b33;border-radius:8px;padding:4px">
+<div style="flex:1"><div style="font:600 15px 'Space Grotesk',sans-serif">BFMiDi NANO+</div><div style="font-size:11.5px;color:#8a94a2;margin-top:2px">8 unidades · 12 peças</div></div>
+<div style="position:relative;width:46px;height:46px">
+<svg viewBox="0 0 40 40" style="width:46px;height:46px;transform:rotate(-90deg)"><circle cx="20" cy="20" r="16" fill="none" stroke="#1d2128" stroke-width="5"></circle><circle cx="20" cy="20" r="16" fill="none" stroke="#ffb02e" stroke-width="5" stroke-linecap="round" stroke-dasharray="100.5" stroke-dashoffset="43"></circle></svg>
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 11px 'IBM Plex Mono',monospace">57%</div>
+</div>
+</div>
+<div style="display:flex;gap:22px;padding-bottom:14px;border-bottom:1px solid #23272f">
+<div><div style="font-size:10.5px;color:#8a94a2;text-transform:uppercase;letter-spacing:.8px">Custo / unidade</div><div style="font:600 19px 'Space Grotesk',sans-serif;margin-top:5px;color:#ffb02e">R$ 154,60</div></div>
+<div><div style="font-size:10.5px;color:#8a94a2;text-transform:uppercase;letter-spacing:.8px">Gasto</div><div style="font:600 19px 'Space Grotesk',sans-serif;margin-top:5px">R$ 1.236</div></div>
+</div>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:9px">
+<div style="font-size:11px;color:#8a94a2">Ainda falta</div>
+<div style="display:flex;align-items:center;gap:9px;font-size:12.5px"><span style="flex:1">Nylon Rig M12</span><span style="font:500 12px 'IBM Plex Mono',monospace;color:#ffb02e">18</span><div style="width:76px;height:5px;border-radius:9px;background:#1d2128;overflow:hidden"><div style="width:62%;height:100%;background:#56d364"></div></div></div>
+<div style="display:flex;align-items:center;gap:9px;font-size:12.5px"><span style="flex:1">ESP32-S3 N16R8</span><span style="font:500 12px 'IBM Plex Mono',monospace;color:#ffb02e">4</span><div style="width:76px;height:5px;border-radius:9px;background:#1d2128;overflow:hidden"><div style="width:50%;height:100%;background:#56d364"></div></div></div>
+<div style="display:flex;align-items:center;gap:9px;font-size:12.5px"><span style="flex:1">Envelope Correio</span><span style="font:500 12px 'IBM Plex Mono',monospace;color:#56d364">✓</span><div style="width:76px;height:5px;border-radius:9px;background:#1d2128;overflow:hidden"><div style="width:100%;height:100%;background:#56d364"></div></div></div>
+</div>
+</div>
+</div>
+
+<div style="background:#14171b;border:1px solid #23272f;border-radius:14px;padding:18px 20px">
+<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:14px">
+<div style="font:600 14px 'Space Grotesk',sans-serif">Comprar agora</div>
+<div style="font-size:11.5px;color:#8a94a2">o que está faltando, somando os dois modelos</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+<div style="display:flex;align-items:center;gap:14px;padding:10px 10px;border-radius:9px;background:#181c22">
+<div style="flex:1"><div style="font-size:13px;font-weight:500">Chave SPST</div><div style="font-size:11px;color:#8a94a2;margin-top:2px">Eletromecânica</div></div>
+<div style="font:600 15px 'IBM Plex Mono',monospace;color:#ffb02e;width:44px;text-align:right">30</div>
+<a href="#1a" style="text-decoration:none;padding:6px 12px;border-radius:7px;border:1px solid #2c313a;color:#a9b3c1;font-size:11.5px;background:#14171b" style-hover="border-color:#ffb02e;color:#ffb02e">aliexpress.com ↗</a>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:10px 10px;border-radius:9px">
+<div style="flex:1"><div style="font-size:13px;font-weight:500">Nylon Rig</div><div style="font-size:11px;color:#8a94a2;margin-top:2px">M12x20x1 White</div></div>
+<div style="font:600 15px 'IBM Plex Mono',monospace;color:#ffb02e;width:44px;text-align:right">18</div>
+<a href="#1a" style="text-decoration:none;padding:6px 12px;border-radius:7px;border:1px solid #2c313a;color:#a9b3c1;font-size:11.5px;background:#14171b" style-hover="border-color:#ffb02e;color:#ffb02e">aliexpress.com ↗</a>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:10px 10px;border-radius:9px">
+<div style="flex:1"><div style="font-size:13px;font-weight:500">Caixa Metal 8SW+</div><div style="font-size:11px;color:#8a94a2;margin-top:2px">Gabinete · sem link</div></div>
+<div style="font:600 15px 'IBM Plex Mono',monospace;color:#ffb02e;width:44px;text-align:right">5</div>
+<a href="#1a" style="text-decoration:none;padding:6px 12px;border-radius:7px;border:1px dashed #2c313a;color:#6f7887;font-size:11.5px" style-hover="color:#ffb02e">+ link</a>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:10px 10px;border-radius:9px">
+<div style="flex:1"><div style="font-size:13px;font-weight:500">ESP32-S3 N16R8</div><div style="font-size:11px;color:#8a94a2;margin-top:2px">Microcontroladores</div></div>
+<div style="font:600 15px 'IBM Plex Mono',monospace;color:#ffb02e;width:44px;text-align:right">4</div>
+<a href="#1a" style="text-decoration:none;padding:6px 12px;border-radius:7px;border:1px solid #2c313a;color:#a9b3c1;font-size:11.5px;background:#14171b" style-hover="border-color:#ffb02e;color:#ffb02e">aliexpress.com ↗</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Rack — cada modelo é um módulo de rack, peças viram LEDs que acendem quando completam</div>
+<div class="dv-card" style="width:860px;border:1px solid #23262c">
+<div style="background:#0a0b0d;color:#eceff4;padding:22px 24px 26px;font-family:'IBM Plex Sans',sans-serif">
+
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+<div style="font:600 15px 'Space Grotesk',sans-serif;letter-spacing:2.5px;text-transform:uppercase">BFMiDi</div>
+<div style="width:1px;height:20px;background:#26292f"></div>
+<div style="font-size:12px;color:#7e8794">lote de junho · 12 dias em andamento</div>
+<div style="flex:1"></div>
+<div style="display:flex;align-items:center;gap:7px;font:500 11px 'IBM Plex Mono',monospace;color:#56d364"><span style="width:7px;height:7px;border-radius:50%;background:#56d364;box-shadow:0 0 8px #56d364;animation:led 2s infinite"></span>REC</div>
+<button style="padding:9px 18px;border-radius:6px;border:1px solid #4a3a12;background:linear-gradient(180deg,#2a2113,#1d1809);color:#ffb02e;font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.5px;cursor:pointer" style-hover="background:#332813">REGISTRAR</button>
+</div>
+
+<div style="background:linear-gradient(180deg,#191c20,#111316);border:1px solid #2b2f36;border-radius:8px;padding:18px 20px;margin-bottom:14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+<div style="font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:1.6px;color:#7e8794">MASTER · PROGRESSO DO LOTE</div>
+<div style="font:600 13px 'IBM Plex Mono',monospace;color:#56d364">198 / 311</div>
+</div>
+<div style="display:flex;gap:3px;height:26px;margin-bottom:10px">
+<div style="flex:1;background:#56d364;border-radius:2px;box-shadow:0 0 6px rgba(86,211,100,.35)"></div><div style="flex:1;background:#56d364;border-radius:2px;box-shadow:0 0 6px rgba(86,211,100,.35)"></div><div style="flex:1;background:#56d364;border-radius:2px;box-shadow:0 0 6px rgba(86,211,100,.35)"></div><div style="flex:1;background:#56d364;border-radius:2px;box-shadow:0 0 6px rgba(86,211,100,.35)"></div><div style="flex:1;background:#56d364;border-radius:2px;box-shadow:0 0 6px rgba(86,211,100,.35)"></div><div style="flex:1;background:#56d364;border-radius:2px;box-shadow:0 0 6px rgba(86,211,100,.35)"></div><div style="flex:1;background:#56d364;border-radius:2px;box-shadow:0 0 6px rgba(86,211,100,.35)"></div><div style="flex:1;background:#7ee08a;border-radius:2px"></div><div style="flex:1;background:#c9d34a;border-radius:2px"></div><div style="flex:1;background:#ffb02e;border-radius:2px;box-shadow:0 0 6px rgba(255,176,46,.4)"></div><div style="flex:1;background:#20242a;border-radius:2px"></div><div style="flex:1;background:#20242a;border-radius:2px"></div><div style="flex:1;background:#20242a;border-radius:2px"></div><div style="flex:1;background:#20242a;border-radius:2px"></div><div style="flex:1;background:#20242a;border-radius:2px"></div><div style="flex:1;background:#20242a;border-radius:2px"></div>
+</div>
+<div style="display:flex;gap:34px">
+<div><div style="font:600 26px/1 'Space Grotesk',sans-serif">64%</div><div style="font-size:10.5px;color:#7e8794;letter-spacing:.7px;text-transform:uppercase;margin-top:5px">concluído</div></div>
+<div><div style="font:600 26px/1 'Space Grotesk',sans-serif;color:#ffb02e">113</div><div style="font-size:10.5px;color:#7e8794;letter-spacing:.7px;text-transform:uppercase;margin-top:5px">peças faltando</div></div>
+<div><div style="font:600 26px/1 'Space Grotesk',sans-serif">R$ 2.847</div><div style="font-size:10.5px;color:#7e8794;letter-spacing:.7px;text-transform:uppercase;margin-top:5px">gasto até agora</div></div>
+<div><div style="font:600 26px/1 'Space Grotesk',sans-serif;color:#56d364">9/17</div><div style="font-size:10.5px;color:#7e8794;letter-spacing:.7px;text-transform:uppercase;margin-top:5px">peças completas</div></div>
+</div>
+</div>
+
+<div style="background:linear-gradient(180deg,#191c20,#111316);border:1px solid #2b2f36;border-radius:8px;padding:16px 18px;margin-bottom:12px;position:relative">
+<div style="position:absolute;top:9px;left:9px;width:6px;height:6px;border-radius:50%;background:#3a3f46;box-shadow:inset 0 1px 1px rgba(0,0,0,.6)"></div>
+<div style="position:absolute;top:9px;right:9px;width:6px;height:6px;border-radius:50%;background:#3a3f46;box-shadow:inset 0 1px 1px rgba(0,0,0,.6)"></div>
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+<img src="8SW.svg" alt="BFMiDi 8SW+" style="width:56px;height:44px;object-fit:contain;opacity:.9">
+<div><div style="font:600 15px 'Space Grotesk',sans-serif;letter-spacing:.4px">8SW+ <span style="font:500 11px 'IBM Plex Mono',monospace;color:#7e8794;margin-left:4px">× 5 un.</span></div>
+<div style="font-size:11px;color:#7e8794;margin-top:3px">R$ 214,90 por unidade · R$ 1.611 no total</div></div>
+<div style="flex:1"></div>
+<div style="font:600 20px 'IBM Plex Mono',monospace;color:#56d364">71%</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">
+<div style="background:#12331a;border:1px solid #235e2c;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#79c785;letter-spacing:.5px">PCB 8SW+</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#8ce99a;margin-top:4px">5/5</div></div>
+<div style="background:#3a2a0c;border:1px solid #6b4c12;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#d9ac5e;letter-spacing:.5px">Chave SPST</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#ffb02e;margin-top:4px">28/40</div></div>
+<div style="background:#3a2a0c;border:1px solid #6b4c12;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#d9ac5e;letter-spacing:.5px">Nylon Rig</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#ffb02e;margin-top:4px">32/40</div></div>
+<div style="background:#12331a;border:1px solid #235e2c;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#79c785;letter-spacing:.5px">Fonte 5V</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#8ce99a;margin-top:4px">5/5</div></div>
+<div style="background:#3a2a0c;border:1px solid #6b4c12;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#d9ac5e;letter-spacing:.5px">Display</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#ffb02e;margin-top:4px">2/5</div></div>
+<div style="background:#12331a;border:1px solid #235e2c;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#79c785;letter-spacing:.5px">USB-B</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#8ce99a;margin-top:4px">5/5</div></div>
+<div style="background:#12331a;border:1px solid #235e2c;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#79c785;letter-spacing:.5px">DIN5</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#8ce99a;margin-top:4px">5/5</div></div>
+<div style="background:#12331a;border:1px solid #235e2c;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#79c785;letter-spacing:.5px">Conector DC</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#8ce99a;margin-top:4px">5/5</div></div>
+<div style="background:#3a2a0c;border:1px solid #6b4c12;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#d9ac5e;letter-spacing:.5px">ESP32 N16R8</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#ffb02e;margin-top:4px">3/5</div></div>
+<div style="background:#12331a;border:1px solid #235e2c;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#79c785;letter-spacing:.5px">ESP32 ZERO</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#8ce99a;margin-top:4px">5/5</div></div>
+<div style="background:#1a1d22;border:1px solid #2b2f36;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#7e8794;letter-spacing:.5px">Caixa Metal</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#7e8794;margin-top:4px">0/5</div></div>
+<div style="background:#3a2a0c;border:1px solid #6b4c12;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#d9ac5e;letter-spacing:.5px">Caixa Correio</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#ffb02e;margin-top:4px">2/5</div></div>
+<div style="background:#12331a;border:1px solid #235e2c;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#79c785;letter-spacing:.5px">Envelope</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#8ce99a;margin-top:4px">5/5</div></div>
+</div>
+</div>
+
+<div style="background:linear-gradient(180deg,#191c20,#111316);border:1px solid #2b2f36;border-radius:8px;padding:16px 18px;position:relative">
+<div style="position:absolute;top:9px;left:9px;width:6px;height:6px;border-radius:50%;background:#3a3f46;box-shadow:inset 0 1px 1px rgba(0,0,0,.6)"></div>
+<div style="position:absolute;top:9px;right:9px;width:6px;height:6px;border-radius:50%;background:#3a3f46;box-shadow:inset 0 1px 1px rgba(0,0,0,.6)"></div>
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+<img src="NANO.svg" alt="BFMiDi NANO+" style="width:56px;height:44px;object-fit:contain;opacity:.9">
+<div><div style="font:600 15px 'Space Grotesk',sans-serif;letter-spacing:.4px">NANO+ <span style="font:500 11px 'IBM Plex Mono',monospace;color:#7e8794;margin-left:4px">× 8 un.</span></div>
+<div style="font-size:11px;color:#7e8794;margin-top:3px">R$ 154,60 por unidade · R$ 1.236 no total</div></div>
+<div style="flex:1"></div>
+<div style="font:600 20px 'IBM Plex Mono',monospace;color:#ffb02e">57%</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">
+<div style="background:#12331a;border:1px solid #235e2c;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#79c785;letter-spacing:.5px">PCB NANO+</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#8ce99a;margin-top:4px">8/8</div></div>
+<div style="background:#3a2a0c;border:1px solid #6b4c12;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#d9ac5e;letter-spacing:.5px">Chave SPST</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#ffb02e;margin-top:4px">30/48</div></div>
+<div style="background:#3a2a0c;border:1px solid #6b4c12;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#d9ac5e;letter-spacing:.5px">Nylon Rig</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#ffb02e;margin-top:4px">30/48</div></div>
+<div style="background:#12331a;border:1px solid #235e2c;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#79c785;letter-spacing:.5px">Fonte 5V</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#8ce99a;margin-top:4px">8/8</div></div>
+<div style="background:#3a2a0c;border:1px solid #6b4c12;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#d9ac5e;letter-spacing:.5px">Display</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#ffb02e;margin-top:4px">4/8</div></div>
+<div style="background:#12331a;border:1px solid #235e2c;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#79c785;letter-spacing:.5px">USB-B</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#8ce99a;margin-top:4px">8/8</div></div>
+<div style="background:#12331a;border:1px solid #235e2c;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#79c785;letter-spacing:.5px">Conector DC</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#8ce99a;margin-top:4px">8/8</div></div>
+<div style="background:#3a2a0c;border:1px solid #6b4c12;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#d9ac5e;letter-spacing:.5px">ESP32 N16R8</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#ffb02e;margin-top:4px">4/8</div></div>
+<div style="background:#12331a;border:1px solid #235e2c;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#79c785;letter-spacing:.5px">ESP32 ZERO</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#8ce99a;margin-top:4px">8/8</div></div>
+<div style="background:#1a1d22;border:1px solid #2b2f36;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#7e8794;letter-spacing:.5px">Caixa Metal</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#7e8794;margin-top:4px">0/8</div></div>
+<div style="background:#3a2a0c;border:1px solid #6b4c12;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#d9ac5e;letter-spacing:.5px">Caixa Correio</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#ffb02e;margin-top:4px">3/8</div></div>
+<div style="background:#12331a;border:1px solid #235e2c;border-radius:5px;padding:8px 7px"><div style="font-size:9.5px;color:#79c785;letter-spacing:.5px">Envelope</div><div style="font:600 12px 'IBM Plex Mono',monospace;color:#8ce99a;margin-top:4px">8/8</div></div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Fluxo — as peças andam da coluna "falta" até "completo", com o custo sempre à vista</div>
+<div class="dv-card" style="width:900px;border:1px solid #23262c">
+<div style="background:#0c0e11;color:#eceff4;padding:22px 24px 26px;font-family:'IBM Plex Sans',sans-serif">
+
+<div style="display:flex;align-items:center;gap:16px;margin-bottom:18px">
+<div style="font:600 16px 'Space Grotesk',sans-serif">Olá! Faltam <span style="color:#ffb02e">113 peças</span> para fechar o lote</div>
+<div style="flex:1"></div>
+<div style="display:flex;background:#14171b;border:1px solid #23272f;border-radius:9px;padding:3px">
+<div style="padding:6px 14px;border-radius:7px;background:#22262d;font-size:12px;font-weight:500">Compras</div>
+<div style="padding:6px 14px;border-radius:7px;font-size:12px;color:#8a94a2">Calculadora</div>
+<div style="padding:6px 14px;border-radius:7px;font-size:12px;color:#8a94a2">Peças</div>
+</div>
+<button style="padding:9px 18px;border-radius:9px;border:0;background:#ffb02e;color:#1d1406;font:600 12.5px 'IBM Plex Sans',sans-serif;cursor:pointer;white-space:nowrap" style-hover="background:#ffc157">+ Registrar compra</button>
+</div>
+
+<div style="display:flex;gap:10px;margin-bottom:18px">
+<div style="flex:1;background:linear-gradient(135deg,#1a1410,#14171b);border:1px solid #3a2c14;border-radius:12px;padding:14px 16px">
+<div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2">Falta comprar</div>
+<div style="font:600 23px/1 'Space Grotesk',sans-serif;margin-top:8px;color:#ffb02e">113 peças</div>
+<div style="font-size:11px;color:#8a94a2;margin-top:6px">em 8 tipos diferentes</div>
+</div>
+<div style="flex:1;background:#14171b;border:1px solid #23272f;border-radius:12px;padding:14px 16px">
+<div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2">Gasto até agora</div>
+<div style="font:600 23px/1 'Space Grotesk',sans-serif;margin-top:8px">R$ 2.847,30</div>
+<div style="font-size:11px;color:#8a94a2;margin-top:6px">23 compras registradas</div>
+</div>
+<div style="flex:1;background:#14171b;border:1px solid #23272f;border-radius:12px;padding:14px 16px">
+<div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2">Custo por unidade</div>
+<div style="display:flex;gap:16px;margin-top:8px;align-items:baseline">
+<div><span style="font:600 19px 'Space Grotesk',sans-serif">R$ 214,90</span><div style="font-size:10.5px;color:#8a94a2;margin-top:3px">8SW+</div></div>
+<div><span style="font:600 19px 'Space Grotesk',sans-serif">R$ 154,60</span><div style="font-size:10.5px;color:#8a94a2;margin-top:3px">NANO+</div></div>
+</div>
+</div>
+<div style="flex:1;background:linear-gradient(135deg,#101a13,#14171b);border:1px solid #1f4227;border-radius:12px;padding:14px 16px">
+<div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2">Já resolvidas</div>
+<div style="font:600 23px/1 'Space Grotesk',sans-serif;margin-top:8px;color:#56d364">9 peças</div>
+<div style="font-size:11px;color:#8a94a2;margin-top:6px">de 17 no lote</div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+
+<div>
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:0 2px">
+<span style="width:8px;height:8px;border-radius:50%;background:#ff6b6b"></span>
+<span style="font:600 12.5px 'Space Grotesk',sans-serif">Nem comecei</span>
+<span style="font:500 11px 'IBM Plex Mono',monospace;color:#8a94a2">2</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="background:#14171b;border:1px solid #23272f;border-left:2px solid #ff6b6b;border-radius:10px;padding:12px 13px">
+<div style="font-size:13px;font-weight:500">Caixa Metal 8SW+</div>
+<div style="font-size:11px;color:#8a94a2;margin-top:3px">Gabinete</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:11px">
+<span style="font:600 13px 'IBM Plex Mono',monospace;color:#ff8f8f">0 / 5</span>
+<span style="font-size:11px;color:#6f7887;border:1px dashed #2c313a;padding:4px 9px;border-radius:6px">+ link</span>
+</div>
+</div>
+<div style="background:#14171b;border:1px solid #23272f;border-left:2px solid #ff6b6b;border-radius:10px;padding:12px 13px">
+<div style="font-size:13px;font-weight:500">Caixa Metal NANO+</div>
+<div style="font-size:11px;color:#8a94a2;margin-top:3px">Gabinete</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:11px">
+<span style="font:600 13px 'IBM Plex Mono',monospace;color:#ff8f8f">0 / 8</span>
+<span style="font-size:11px;color:#6f7887;border:1px dashed #2c313a;padding:4px 9px;border-radius:6px">+ link</span>
+</div>
+</div>
+</div>
+</div>
+
+<div>
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:0 2px">
+<span style="width:8px;height:8px;border-radius:50%;background:#ffb02e"></span>
+<span style="font:600 12.5px 'Space Grotesk',sans-serif">Comprando</span>
+<span style="font:500 11px 'IBM Plex Mono',monospace;color:#8a94a2">6</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="background:#14171b;border:1px solid #23272f;border-left:2px solid #ffb02e;border-radius:10px;padding:12px 13px">
+<div style="font-size:13px;font-weight:500">Chave SPST</div>
+<div style="font-size:11px;color:#8a94a2;margin-top:3px">Eletromecânica · R$ 1,42 un.</div>
+<div style="height:5px;border-radius:9px;background:#1d2128;overflow:hidden;margin:10px 0 9px"><div style="width:66%;height:100%;background:#ffb02e"></div></div>
+<div style="display:flex;align-items:center;justify-content:space-between">
+<span style="font:600 13px 'IBM Plex Mono',monospace">58 / 88</span>
+<span style="font-size:11px;color:#a9b3c1;border:1px solid #2c313a;padding:4px 9px;border-radius:6px;background:#181c22">aliexpress ↗</span>
+</div>
+</div>
+<div style="background:#14171b;border:1px solid #23272f;border-left:2px solid #ffb02e;border-radius:10px;padding:12px 13px">
+<div style="font-size:13px;font-weight:500">Nylon Rig</div>
+<div style="font-size:11px;color:#8a94a2;margin-top:3px">M12x20x1 White · R$ 0,89 un.</div>
+<div style="height:5px;border-radius:9px;background:#1d2128;overflow:hidden;margin:10px 0 9px"><div style="width:70%;height:100%;background:#ffb02e"></div></div>
+<div style="display:flex;align-items:center;justify-content:space-between">
+<span style="font:600 13px 'IBM Plex Mono',monospace">62 / 88</span>
+<span style="font-size:11px;color:#a9b3c1;border:1px solid #2c313a;padding:4px 9px;border-radius:6px;background:#181c22">aliexpress ↗</span>
+</div>
+</div>
+<div style="background:#14171b;border:1px solid #23272f;border-left:2px solid #ffb02e;border-radius:10px;padding:12px 13px">
+<div style="font-size:13px;font-weight:500">Display ST7796S</div>
+<div style="font-size:11px;color:#8a94a2;margin-top:3px">Interface · R$ 48,20 un.</div>
+<div style="height:5px;border-radius:9px;background:#1d2128;overflow:hidden;margin:10px 0 9px"><div style="width:46%;height:100%;background:#ffb02e"></div></div>
+<div style="display:flex;align-items:center;justify-content:space-between">
+<span style="font:600 13px 'IBM Plex Mono',monospace">6 / 13</span>
+<span style="font-size:11px;color:#a9b3c1;border:1px solid #2c313a;padding:4px 9px;border-radius:6px;background:#181c22">aliexpress ↗</span>
+</div>
+</div>
+<div style="background:#14171b;border:1px solid #23272f;border-left:2px solid #ffb02e;border-radius:10px;padding:12px 13px">
+<div style="font-size:13px;font-weight:500">ESP32-S3 N16R8</div>
+<div style="font-size:11px;color:#8a94a2;margin-top:3px">Microcontroladores · R$ 62,00 un.</div>
+<div style="height:5px;border-radius:9px;background:#1d2128;overflow:hidden;margin:10px 0 9px"><div style="width:54%;height:100%;background:#ffb02e"></div></div>
+<div style="display:flex;align-items:center;justify-content:space-between">
+<span style="font:600 13px 'IBM Plex Mono',monospace">7 / 13</span>
+<span style="font-size:11px;color:#a9b3c1;border:1px solid #2c313a;padding:4px 9px;border-radius:6px;background:#181c22">aliexpress ↗</span>
+</div>
+</div>
+</div>
+</div>
+
+<div>
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:0 2px">
+<span style="width:8px;height:8px;border-radius:50%;background:#56d364"></span>
+<span style="font:600 12.5px 'Space Grotesk',sans-serif">Completo</span>
+<span style="font:500 11px 'IBM Plex Mono',monospace;color:#8a94a2">9</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="background:#101a13;border:1px solid #1f4227;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:9px">
+<span style="color:#56d364;font-size:13px">✓</span><span style="flex:1;font-size:12.5px">PCB 8SW+</span><span style="font:500 11.5px 'IBM Plex Mono',monospace;color:#79c785">5/5</span>
+</div>
+<div style="background:#101a13;border:1px solid #1f4227;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:9px">
+<span style="color:#56d364;font-size:13px">✓</span><span style="flex:1;font-size:12.5px">PCB NANO+</span><span style="font:500 11.5px 'IBM Plex Mono',monospace;color:#79c785">8/8</span>
+</div>
+<div style="background:#101a13;border:1px solid #1f4227;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:9px">
+<span style="color:#56d364;font-size:13px">✓</span><span style="flex:1;font-size:12.5px">Fonte DC 5V</span><span style="font:500 11.5px 'IBM Plex Mono',monospace;color:#79c785">13/13</span>
+</div>
+<div style="background:#101a13;border:1px solid #1f4227;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:9px">
+<span style="color:#56d364;font-size:13px">✓</span><span style="flex:1;font-size:12.5px">Conector USB-B</span><span style="font:500 11.5px 'IBM Plex Mono',monospace;color:#79c785">13/13</span>
+</div>
+<div style="background:#101a13;border:1px solid #1f4227;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:9px">
+<span style="color:#56d364;font-size:13px">✓</span><span style="flex:1;font-size:12.5px">Conector DIN5</span><span style="font:500 11.5px 'IBM Plex Mono',monospace;color:#79c785">5/5</span>
+</div>
+<div style="background:#101a13;border:1px solid #1f4227;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:9px">
+<span style="color:#56d364;font-size:13px">✓</span><span style="flex:1;font-size:12.5px">Conector DC</span><span style="font:500 11.5px 'IBM Plex Mono',monospace;color:#79c785">13/13</span>
+</div>
+<div style="background:#101a13;border:1px solid #1f4227;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:9px">
+<span style="color:#56d364;font-size:13px">✓</span><span style="flex:1;font-size:12.5px">ESP32-S3 ZERO</span><span style="font:500 11.5px 'IBM Plex Mono',monospace;color:#79c785">13/13</span>
+</div>
+<div style="background:#101a13;border:1px solid #1f4227;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:9px">
+<span style="color:#56d364;font-size:13px">✓</span><span style="flex:1;font-size:12.5px">Envelope Correio</span><span style="font:500 11.5px 'IBM Plex Mono',monospace;color:#79c785">13/13</span>
+</div>
+</div>
+</div>
+
+</div>
+
+<div style="display:flex;gap:10px;margin-top:16px">
+<div style="flex:1;display:flex;align-items:center;gap:12px;background:#14171b;border:1px solid #23272f;border-radius:12px;padding:12px 14px">
+<img src="8SW.svg" alt="BFMiDi 8SW+" style="width:44px;height:36px;object-fit:contain;background:#1d2128;border-radius:7px;padding:3px">
+<div style="flex:1"><div style="font-size:13px;font-weight:600">BFMiDi 8SW+ <span style="font-weight:400;color:#8a94a2">· 5 un.</span></div>
+<div style="height:5px;border-radius:9px;background:#1d2128;overflow:hidden;margin-top:8px"><div style="width:71%;height:100%;background:#56d364"></div></div></div>
+<div style="font:600 14px 'IBM Plex Mono',monospace;color:#56d364">71%</div>
+</div>
+<div style="flex:1;display:flex;align-items:center;gap:12px;background:#14171b;border:1px solid #23272f;border-radius:12px;padding:12px 14px">
+<img src="NANO.svg" alt="BFMiDi NANO+" style="width:44px;height:36px;object-fit:contain;background:#1d2128;border-radius:7px;padding:3px">
+<div style="flex:1"><div style="font-size:13px;font-weight:600">BFMiDi NANO+ <span style="font-weight:400;color:#8a94a2">· 8 un.</span></div>
+<div style="height:5px;border-radius:9px;background:#1d2128;overflow:hidden;margin-top:8px"><div style="width:57%;height:100%;background:#ffb02e"></div></div></div>
+<div style="font:600 14px 'IBM Plex Mono',monospace;color:#ffb02e">57%</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Diga por exemplo: "vamos com <a class="dv-oid" href="#1a">1a</a>, mas com os LEDs de peça do <a class="dv-oid" href="#1b">1b</a>" · "gostei do <a class="dv-oid" href="#1c">1c</a>, monta o app inteiro assim" · "quero outras direções"</p>
+</section>
+
+</x-dc>
+</body>
+</html>
