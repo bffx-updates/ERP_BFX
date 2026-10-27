@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0c0e11">
+<meta name="description" content="Calculadora e acompanhamento de compras de peças da BFMiDi.">
+<title>BFMiDi — Acompanhamento de compras</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#090b0e;--side:#0d1014;--surface:#14181d;--surface2:#191e25;--line:#272d36;--text:#f3f5f7;--muted:#a0a9b6;--dim:#737e8d;--orange:#ffad26;--orange2:#ff7a18;--green:#58d66b;--yellow:#f3c64d;--red:#ff6b6b}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:radial-gradient(circle at 72% -10%,rgba(255,122,24,.11),transparent 28%),radial-gradient(circle at 20% 105%,rgba(255,173,38,.06),transparent 24%),var(--bg);color:var(--text);font-family:"IBM Plex Sans",system-ui,sans-serif;min-height:100vh}
+a{color:var(--orange);text-decoration:none}
+a:hover{color:#ffc75e}
+input,select,button,textarea{font-family:inherit}
+button{transition:transform .16s ease,border-color .16s ease,background .16s ease,color .16s ease,box-shadow .16s ease}
+button:hover{transform:translateY(-1px)}
+button:active{transform:translateY(0)}
+input[type=number]{-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input:focus,select:focus{outline:2px solid var(--orange);outline-offset:-1px;box-shadow:0 0 0 4px rgba(255,173,38,.08)}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-thumb{background:#2d343e;border-radius:9px;border:3px solid var(--bg)}
+
+.app-shell{min-height:100vh}
+.app-sidebar{position:fixed;inset:0 auto 0 0;width:232px;z-index:40;background:linear-gradient(180deg,rgba(18,21,26,.98),rgba(10,12,15,.98));border-right:1px solid #20252c;box-shadow:18px 0 60px rgba(0,0,0,.22);backdrop-filter:blur(18px)}
+.side-inner{height:100%;padding:22px 16px 18px;display:flex;flex-direction:column;gap:18px}
+.brand{display:flex;align-items:center;gap:12px;padding:3px 8px 19px;border-bottom:1px solid #232931}
+.brand-mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,var(--orange),var(--orange2));display:flex;align-items:center;justify-content:center;font:700 14px "Space Grotesk",sans-serif;color:#211405;box-shadow:0 8px 25px rgba(255,138,24,.28),inset 0 1px rgba(255,255,255,.35)}
+.brand-name{font:700 17px "Space Grotesk",sans-serif;letter-spacing:.3px}
+.brand-sub{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1.2px;margin-top:3px}
+.topnav{display:flex;flex-direction:column;gap:5px}
+.topnav button{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:11px 12px!important;border-radius:10px!important}
+.nav-icon{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;border-radius:7px;background:#20252c;color:var(--orange);font:600 12px "IBM Plex Mono",monospace;flex:none}
+.side-spacer{flex:1}
+.side-utility,.side-primary{width:100%;display:flex;align-items:center;justify-content:center;gap:8px}
+.side-primary{box-shadow:0 9px 28px rgba(255,156,30,.18)!important}
+
+main{max-width:1420px!important;margin:0 auto 0 232px!important;padding:34px 34px 90px!important}
+.page-heading{margin:0 0 22px;animation:rise .3s ease}
+.page-heading.compact{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.page-heading h1{font:700 28px/1.12 "Space Grotesk",sans-serif;margin:5px 0 0;letter-spacing:-.5px}
+.page-heading p{font-size:13px;color:var(--muted);margin:8px 0 0}
+.eyebrow{font:600 10px "IBM Plex Mono",monospace;color:var(--orange);letter-spacing:1.7px;text-transform:uppercase}
+
+div[style*="background:#14171b"][style*="border:1px solid #23272f"]{background:linear-gradient(145deg,rgba(24,29,35,.97),rgba(16,19,24,.97))!important;border-color:#2a3038!important;box-shadow:0 14px 38px rgba(0,0,0,.16),inset 0 1px rgba(255,255,255,.018)}
+.empty-state{background:radial-gradient(circle at 50% 0%,rgba(255,173,38,.1),transparent 45%),linear-gradient(145deg,#171b20,#101318)!important}
+.progress-hero{position:relative;overflow:hidden;background:radial-gradient(circle at 100% 0%,rgba(255,173,38,.14),transparent 36%),linear-gradient(145deg,#191b1e,#111419)!important}
+.progress-hero:after{content:"";position:absolute;inset:0;border-top:1px solid rgba(255,184,65,.18);pointer-events:none}
+.run-kpis>div,.history-summary>div{transition:transform .2s ease,border-color .2s ease}
+.run-kpis>div:hover,.history-summary>div:hover{transform:translateY(-2px);border-color:#3b424c!important}
+.model-card{position:relative;overflow:hidden;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.model-card:before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,var(--orange),transparent 72%);opacity:.7}
+.model-card:hover{transform:translateY(-3px);border-color:#3c434d!important;box-shadow:0 22px 55px rgba(0,0,0,.25)!important}
+.model-card img,.calc-model-row img,img[src$=".png"]{border:1px solid rgba(255,174,40,.36);box-shadow:0 0 0 4px rgba(255,173,38,.055),0 10px 28px rgba(0,0,0,.35)}
+.model-card img{width:68px!important;height:68px!important}
+.model-financials{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 22px!important}
+.calc-model-row{margin:0 -7px;padding:12px 7px!important;border-radius:12px;transition:background .18s ease}
+.calc-model-row:hover{background:rgba(255,255,255,.025)}
+.calc-model-row img{width:54px!important;height:54px!important}
+.buy-now-card{border-color:#343124!important}
+
+.history-summary>div:first-child{box-shadow:0 16px 40px rgba(41,121,55,.08)}
+.inventory-panel{position:sticky;top:24px}
+.stock-row{margin:0 -6px;padding:11px 6px!important;border-radius:10px;transition:background .16s ease}
+.stock-row:hover{background:#1b2027}
+.stock-status{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:10.5px}
+.stock-dot{width:7px;height:7px;border-radius:50%;box-shadow:0 0 10px currentColor}
+.history-list{position:relative;padding-left:18px}
+.history-list:before{content:"";position:absolute;left:3px;top:12px;bottom:12px;width:1px;background:linear-gradient(var(--orange),#29313a 65%,transparent)}
+.history-card{position:relative;transition:transform .2s ease,border-color .2s ease}
+.history-card:before{content:"";position:absolute;left:-22px;top:23px;width:9px;height:9px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 5px #161a1f,0 0 18px rgba(255,173,38,.45)}
+.history-card:hover{transform:translateX(3px);border-color:#3b424d!important}
+.history-metrics>div{border:1px solid #222830}
+
+@keyframes slidein{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+@media(max-width:1100px){
+  main{padding-left:24px!important;padding-right:24px!important}
+  .run-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .history-summary{grid-template-columns:1fr!important}
+}
+@media(max-width:900px){
+  .app-sidebar{inset:auto 0 0 0;width:auto;height:74px;border-right:0;border-top:1px solid #2a3038;box-shadow:0 -14px 40px rgba(0,0,0,.36)}
+  .side-inner{height:100%;padding:8px 10px;display:block}
+  .brand,.side-spacer,.side-utility,.side-primary{display:none!important}
+  .topnav{height:100%;width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+  .topnav button{height:100%;min-width:0;justify-content:center;flex-direction:column;gap:3px;padding:5px 3px!important;text-align:center;font-size:10px!important;white-space:normal!important}
+  .nav-icon{width:24px;height:22px;background:transparent}
+  main{margin:0!important;max-width:none!important;padding:22px 14px 105px!important}
+  .history-grid,.history-summary,.calculator-grid,.bom-grid{grid-template-columns:1fr!important}
+  .inventory-panel{position:static}
+}
+@media(max-width:600px){
+  .page-heading h1{font-size:24px}
+  .history-metrics{grid-template-columns:1fr!important}
+  .run-kpis{grid-template-columns:1fr!important}
+  .model-card img{width:58px!important;height:58px!important}
+  .topnav button{font-size:9px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+@media print{
+  .noprint{display:none!important}
+  body{background:#fff;color:#000}
+  main{margin:0!important;padding:0!important}
+}
+</style>
+</helmet>
+
+<div class="app-shell" style="min-height:100vh;color:#eceff4">
+
+<aside class="app-sidebar noprint">
+<div class="side-inner">
+<div class="brand">
+<div class="brand-mark">BF</div>
+<div><div class="brand-name">BFMiDi</div><div class="brand-sub">Parts control</div></div>
+</div>
+<nav class="topnav">
+<button onClick="{{ goRun }}" style="border:0;cursor:pointer;font-weight:500;font-size:12.5px;white-space:nowrap;background:{{ tabRunBg }};color:{{ tabRunFg }}"><span class="nav-icon">◉</span>Compras</button>
+<button onClick="{{ goCalc }}" style="border:0;cursor:pointer;font-weight:500;font-size:12.5px;white-space:nowrap;background:{{ tabCalcBg }};color:{{ tabCalcFg }}"><span class="nav-icon">∑</span>Calculadora</button>
+<button onClick="{{ goHistory }}" style="border:0;cursor:pointer;font-weight:500;font-size:12.5px;white-space:nowrap;background:{{ tabHistoryBg }};color:{{ tabHistoryFg }}"><span class="nav-icon">▤</span>Histórico</button>
+<button onClick="{{ goBom }}" style="border:0;cursor:pointer;font-weight:500;font-size:12.5px;white-space:nowrap;background:{{ tabBomBg }};color:{{ tabBomFg }}"><span class="nav-icon">◇</span>Peças e modelos</button>
+</nav>
+<div class="side-spacer"></div>
+<button onClick="{{ doPrint }}" class="side-utility" style="padding:10px 14px;border-radius:10px;border:1px solid #2c313a;background:#14171b;color:#a9b3c1;font-size:12.5px;font-weight:500;cursor:pointer"><span>⎙</span> Imprimir</button>
+<button onClick="{{ openBuy }}" class="side-primary" style="padding:11px 15px;border-radius:10px;border:0;background:#ffb02e;color:#1d1406;font-size:12.5px;font-weight:600;cursor:pointer"><span style="font-size:17px;line-height:1">＋</span> Registrar compra</button>
+</div>
+</aside>
+
+<main style="max-width:1200px;margin:0 auto;padding:26px 24px 80px">
+
+<sc-if value="{{ isRunEmpty }}">
+<div class="empty-state" style="background:#14171b;border:1px solid #23272f;border-radius:16px;padding:72px 40px;text-align:center;animation:fade .3s">
+<div style="width:58px;height:58px;border-radius:18px;background:linear-gradient(145deg,#2a2113,#181c22);border:1px solid #4a3a12;color:#ffb02e;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 18px;box-shadow:0 15px 35px rgba(0,0,0,.28)">＋</div>
+<div style="font:600 20px 'Space Grotesk',sans-serif;margin-bottom:10px">Nenhum lote em andamento</div>
+<div style="font-size:13.5px;color:#8a94a2;max-width:450px;margin:0 auto 24px;line-height:1.65">Passe na Calculadora, diga quantos pedais de cada modelo você vai montar e clique em “Iniciar compra”. Daí em diante eu acompanho tudo aqui pra você.</div>
+<button onClick="{{ goCalc }}" style="padding:11px 22px;border-radius:10px;border:0;background:#ffb02e;color:#1d1406;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#ffc157">Abrir a calculadora</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ isRun }}" hint-placeholder-val="{{ true }}">
+<div style="animation:fade .3s">
+
+<div class="page-heading compact" style="display:flex;align-items:flex-end;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+<div style="flex:1;min-width:250px">
+<div class="eyebrow">Produção em andamento</div>
+<div style="font:600 22px/1.2 'Space Grotesk',sans-serif">{{ runTitle }}</div>
+<div style="font-size:12.5px;color:#8a94a2;margin-top:7px">{{ runSub }}</div>
+</div>
+<button onClick="{{ syncRun }}" class="noprint" style="padding:9px 14px;border-radius:9px;border:1px solid #4a3a12;background:#211d14;color:#ffb02e;font-size:12.5px;cursor:pointer;white-space:nowrap" style-hover="background:#2a2417;border-color:#6a5318">↻ Atualizar peças</button>
+<button onClick="{{ runCsv }}" class="noprint" style="padding:9px 14px;border-radius:9px;border:1px solid #2c313a;background:#14171b;color:#a9b3c1;font-size:12.5px;cursor:pointer;white-space:nowrap" style-hover="border-color:#3a4150;color:#eceff4">↓ CSV do lote</button>
+<button onClick="{{ askEndRun }}" class="noprint" style="padding:9px 14px;border-radius:9px;border:1px solid #2c313a;background:#14171b;color:#8a94a2;font-size:12.5px;cursor:pointer;white-space:nowrap" style-hover="border-color:#5a2b2b;color:#ff8f8f">× Encerrar lote</button>
+</div>
+
+<div class="progress-hero" style="background:#14171b;border:1px solid #23272f;border-radius:18px;padding:26px 28px;margin-bottom:14px">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:15px">
+<div>
+<div style="font-size:12px;color:#8a94a2;font-weight:500">Você já garantiu</div>
+<div style="display:flex;align-items:baseline;gap:13px;flex-wrap:wrap;margin-top:9px">
+<span style="font:600 36px/1 'Space Grotesk',sans-serif">{{ pctStr }}<span style="font-size:21px;color:#8a94a2">%</span></span>
+<span style="font:400 13px 'IBM Plex Mono',monospace;color:#8a94a2;white-space:nowrap">{{ gotT }} de {{ needT }} peças</span>
+</div>
+</div>
+<div style="text-align:right">
+<div style="font-size:12px;color:#8a94a2;font-weight:500">Ainda faltam</div>
+<div style="font:600 24px/1 'Space Grotesk',sans-serif;color:#ffb02e;margin-top:10px;white-space:nowrap">{{ faltamT }} peças</div>
+</div>
+</div>
+<div style="height:10px;border-radius:20px;background:#1d2128;overflow:hidden">
+<div style="height:100%;border-radius:20px;background:linear-gradient(90deg,#56d364,#8ce99a);transition:width .4s ease;width:{{ barW }}"></div>
+</div>
+</div>
+
+<div class="run-kpis" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px">
+<div style="background:#14171b;border:1px solid #23272f;border-radius:13px;padding:16px 18px">
+<div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2;font-weight:500">Gasto no lote</div>
+<div style="font:600 25px/1 'Space Grotesk',sans-serif;margin-top:11px">{{ spentStr }}</div>
+</div>
+<div style="background:#14171b;border:1px solid #23272f;border-radius:13px;padding:16px 18px">
+<div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2;font-weight:500">Peças completas</div>
+<div style="font:600 25px/1 'Space Grotesk',sans-serif;margin-top:11px;color:#56d364">{{ doneParts }} <span style="color:#8a94a2;font-size:15px">de {{ totParts }}</span></div>
+</div>
+<div style="background:#14171b;border:1px solid #23272f;border-radius:13px;padding:16px 18px">
+<div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2;font-weight:500">Compras registradas</div>
+<div style="font:600 25px/1 'Space Grotesk',sans-serif;margin-top:11px">{{ buyCount }} <span style="color:#8a94a2;font-size:15px">{{ daysStr }}</span></div>
+</div>
+<div style="background:#14171b;border:1px solid #23272f;border-radius:13px;padding:16px 18px">
+<div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2;font-weight:500">Lucro atual</div>
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-top:11px">
+<div style="font:600 25px/1 'Space Grotesk',sans-serif;color:{{ profitColor }}">{{ profitStr }}</div>
+<div style="font:600 12px 'IBM Plex Mono',monospace;color:{{ profitColor }};background:#1d2128;border-radius:20px;padding:4px 7px">{{ profitPctStr }}</div>
+</div>
+<div style="font-size:10.5px;color:#6f7887;margin-top:7px">{{ profitHint }}</div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(410px,1fr));gap:12px;margin-bottom:14px">
+<sc-for list="{{ runModels }}" as="m" hint-placeholder-count="2">
+<div class="model-card" style="background:#14171b;border:1px solid #23272f;border-radius:18px;padding:21px 22px">
+<div style="display:flex;align-items:center;gap:13px;margin-bottom:16px">
+<img src="{{ m.img }}" alt="{{ m.name }}" style="width:56px;height:56px;object-fit:cover;border-radius:50%;flex:none">
+<div style="flex:1;min-width:0">
+<div style="font:600 15.5px 'Space Grotesk',sans-serif">{{ m.name }}</div>
+<div style="font-size:11.5px;color:#8a94a2;margin-top:3px">{{ m.qty }} unidades · {{ m.nParts }} peças</div>
+</div>
+<div style="position:relative;width:48px;height:48px;flex:none">
+<svg viewBox="0 0 40 40" style="width:48px;height:48px;transform:rotate(-90deg)"><circle cx="20" cy="20" r="16" fill="none" stroke="#1d2128" stroke-width="5"></circle><circle cx="20" cy="20" r="16" fill="none" stroke="{{ m.ringColor }}" stroke-width="5" stroke-linecap="round" stroke-dasharray="100.5" stroke-dashoffset="{{ m.ringOffset }}"></circle></svg>
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 11px 'IBM Plex Mono',monospace">{{ m.pctStr }}%</div>
+</div>
+</div>
+<div class="model-financials" style="padding-bottom:15px;border-bottom:1px solid #23272f">
+<div><div style="font-size:10.5px;color:#8a94a2;text-transform:uppercase;letter-spacing:.8px">Custo por unidade</div><div style="font:600 20px 'Space Grotesk',sans-serif;margin-top:7px;color:#ffb02e">{{ m.unitStr }}</div></div>
+<div><div style="font-size:10.5px;color:#8a94a2;text-transform:uppercase;letter-spacing:.8px">Venda por unidade</div><div style="font:600 20px 'Space Grotesk',sans-serif;margin-top:7px">{{ m.saleStr }}</div></div>
+<div><div style="font-size:10.5px;color:#8a94a2;text-transform:uppercase;letter-spacing:.8px">Gasto neste modelo</div><div style="font:600 20px 'Space Grotesk',sans-serif;margin-top:7px">{{ m.spentStr }}</div></div>
+<div><div style="font-size:10.5px;color:#8a94a2;text-transform:uppercase;letter-spacing:.8px">Lucro do modelo</div><div style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;margin-top:7px"><div style="font:600 20px 'Space Grotesk',sans-serif;color:{{ m.profitColor }}">{{ m.profitStr }}</div><div style="font:600 10px 'IBM Plex Mono',monospace;color:{{ m.profitColor }};background:#1d2128;border-radius:20px;padding:3px 6px">{{ m.profitPctStr }}</div></div><div style="font-size:10px;color:#6f7887;margin-top:3px">{{ m.revenueHint }}</div></div>
+</div>
+<div style="margin-top:15px">
+<div style="font-size:11px;color:#8a94a2;margin-bottom:11px">{{ m.missLabel }}</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ m.missing }}" as="p" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:10px;font-size:12.5px">
+<span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</span>
+<span style="font:500 12px 'IBM Plex Mono',monospace;color:{{ p.color }};white-space:nowrap">{{ p.falta }}</span>
+<div style="width:80px;height:5px;border-radius:9px;background:#1d2128;overflow:hidden;flex:none"><div style="height:100%;background:#56d364;width:{{ p.barW }}"></div></div>
+</div>
+</sc-for>
+</div>
+</div>
+<button onClick="{{ m.toggle }}" class="noprint" style="margin-top:16px;width:100%;padding:9px;border-radius:9px;border:1px solid #262b33;background:#181c22;color:#a9b3c1;font-size:12px;font-weight:500;cursor:pointer" style-hover="border-color:#3a4150;color:#eceff4">{{ m.toggleLabel }}</button>
+<sc-if value="{{ m.open }}">
+<div style="margin-top:14px;border-top:1px solid #23272f;animation:fade .25s">
+<div style="display:flex;gap:8px;font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:#6f7887;padding:9px 2px">
+<span style="flex:1">Peça</span><span style="width:48px;text-align:right">Falta</span><span style="width:92px;text-align:right">Gasto</span><span style="width:88px;text-align:right">Valor unit.</span><span style="width:100px" class="noprint"></span>
+</div>
+<sc-for list="{{ m.rows }}" as="r" hint-placeholder-count="6">
+<div style="display:flex;align-items:center;gap:8px;padding:8px 2px;border-top:1px solid #1c2027;opacity:{{ r.opacity }}">
+<div style="flex:1;min-width:0">
+<div style="font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</div>
+<div style="font-size:10.5px;color:#6f7887;margin-top:2px">precisa {{ r.need }} · garantiu {{ r.bought }}</div>
+</div>
+<span style="width:48px;text-align:right;font:600 12.5px 'IBM Plex Mono',monospace;color:{{ r.faltaColor }}">{{ r.faltaStr }}</span>
+<span style="width:92px;text-align:right;font:400 11.5px 'IBM Plex Mono',monospace;color:#8a94a2;white-space:nowrap">{{ r.spentStr }}</span>
+<span style="width:88px;text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:#b8c1ce;white-space:nowrap">{{ r.unitStr }}</span>
+<div style="width:100px;display:flex;gap:4px;justify-content:flex-end" class="noprint">
+<input type="number" min="1" step="1" placeholder="qtd" value="{{ r.qVal }}" onChange="{{ r.onQ }}" style="width:44px;background:#1d2128;border:1px solid #2c313a;border-radius:7px;color:#eceff4;padding:5px 6px;font-size:11.5px;text-align:right">
+<button onClick="{{ r.onAdd }}" title="Registrar só neste modelo" style="width:25px;border-radius:7px;border:1px solid #4a3a12;background:#2a2113;color:#ffb02e;font-size:14px;cursor:pointer;line-height:1" style-hover="background:#3a2d16">+</button>
+<sc-if value="{{ r.canUndo }}"><button onClick="{{ r.onUndo }}" title="Desfazer o último registro" style="width:25px;border-radius:7px;border:1px solid #2c313a;background:#181c22;color:#8a94a2;font-size:12px;cursor:pointer;line-height:1" style-hover="color:#ff8f8f;border-color:#5a2b2b">↶</button></sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+
+<div class="buy-now-card" style="background:#14171b;border:1px solid #23272f;border-radius:16px;padding:20px 22px">
+<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+<div style="font:600 15px 'Space Grotesk',sans-serif">Comprar agora</div>
+<div style="font-size:11.5px;color:#8a94a2">{{ buyNowSub }}</div>
+</div>
+<sc-if value="{{ allDone }}">
+<div style="padding:28px;text-align:center;color:#56d364;font-size:13.5px">Tudo comprado! Não falta nenhuma peça neste lote.</div>
+</sc-if>
+<div style="display:flex;flex-direction:column;gap:3px">
+<sc-for list="{{ buyNow }}" as="b" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;background:{{ b.rowBg }}">
+<div style="flex:1;min-width:0">
+<div style="font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ b.name }}</div>
+<div style="font-size:11px;color:#8a94a2;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ b.sub }}</div>
+</div>
+<div style="font:600 15px 'IBM Plex Mono',monospace;color:#ffb02e;width:46px;text-align:right;flex:none">{{ b.falta }}</div>
+<div style="display:flex;gap:6px;flex:none" class="noprint">
+<sc-if value="{{ b.hasUrl }}"><a href="{{ b.url }}" target="_blank" rel="noopener noreferrer" style="padding:6px 12px;border-radius:8px;border:1px solid #2c313a;color:#a9b3c1;font-size:11.5px;background:#181c22;white-space:nowrap;max-width:160px;overflow:hidden;text-overflow:ellipsis;display:inline-block" style-hover="border-color:#ffb02e;color:#ffb02e">{{ b.host }} ↗</a></sc-if>
+<sc-if value="{{ b.noUrl }}"><button onClick="{{ b.editLink }}" style="padding:6px 12px;border-radius:8px;border:1px dashed #2c313a;background:none;color:#6f7887;font-size:11.5px;cursor:pointer;white-space:nowrap" style-hover="color:#ffb02e;border-color:#ffb02e">+ link</button></sc-if>
+<button onClick="{{ b.registrar }}" style="padding:6px 12px;border-radius:8px;border:1px solid #4a3a12;background:#2a2113;color:#ffb02e;font-size:11.5px;font-weight:500;cursor:pointer;white-space:nowrap" style-hover="background:#3a2d16">Registrar</button>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div class="recent-purchases" style="background:#14171b;border:1px solid #23272f;border-radius:16px;padding:20px 22px;margin-top:14px">
+<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+<div style="font:600 15px 'Space Grotesk',sans-serif">Últimas compras</div>
+<div style="font-size:11.5px;color:#8a94a2">{{ recentBuySub }}</div>
+</div>
+<sc-if value="{{ recentEmpty }}">
+<div style="padding:30px;text-align:center;color:#8a94a2;font-size:12.5px">Nenhuma compra registrada neste lote.</div>
+</sc-if>
+<div style="display:flex;flex-direction:column">
+<sc-for list="{{ recentBuys }}" as="b" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:12px;padding:12px 2px;border-top:1px solid #1f232a;flex-wrap:wrap">
+<div style="width:38px;height:38px;border-radius:11px;background:#20251d;border:1px solid #3c4527;color:#f3c64d;display:flex;align-items:center;justify-content:center;font:600 12px 'IBM Plex Mono',monospace;flex:none">×{{ b.qty }}</div>
+<div style="flex:1;min-width:180px">
+<div style="font-size:13px;font-weight:600">{{ b.name }}</div>
+<div style="font-size:10.5px;color:#7f8997;margin-top:4px">{{ b.models }} · {{ b.at }}</div>
+</div>
+<div style="font:500 12px 'IBM Plex Mono',monospace;color:#a9b3c1;white-space:nowrap">{{ b.value }}</div>
+<button onClick="{{ b.askRemove }}" aria-label="Remover compra de {{ b.name }}" style="padding:7px 10px;border-radius:8px;border:1px solid #4c292c;background:#241719;color:#ff8080;font-size:11.5px;cursor:pointer;white-space:nowrap" style-hover="background:#321d20;border-color:#704047">× Remover</button>
+</div>
+</sc-for>
+</div>
+</div>
+
+</div>
+</sc-if>
+
+<sc-if value="{{ isCalc }}">
+<div class="page-heading">
+<div class="eyebrow">Planejamento de produção</div>
+<h1>Monte o próximo lote</h1>
+<p>Escolha os modelos e veja a lista de compras atualizada em tempo real.</p>
+</div>
+<div class="calculator-grid" style="display:grid;grid-template-columns:390px minmax(0,1fr);gap:16px;align-items:start;animation:fade .3s">
+
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="background:#14171b;border:1px solid #23272f;border-radius:16px;padding:20px">
+<div style="font:600 15px 'Space Grotesk',sans-serif;margin-bottom:5px">Quantos você vai montar?</div>
+<div style="font-size:11.5px;color:#8a94a2;margin-bottom:14px">Mexa nas quantidades e a lista de compras se refaz sozinha.</div>
+<sc-for list="{{ calcModels }}" as="m" hint-placeholder-count="2">
+<div class="calc-model-row" style="display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid #1f232a">
+<img src="{{ m.img }}" alt="{{ m.name }}" style="width:48px;height:48px;object-fit:cover;border-radius:50%;flex:none">
+<div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:600">{{ m.name }}</div><div style="font-size:11px;color:#8a94a2;margin-top:3px">{{ m.partsLabel }}</div></div>
+<div style="display:flex;align-items:center;flex:none">
+<button onClick="{{ m.dec }}" style="width:30px;height:34px;border:1px solid #2c313a;border-right:0;border-radius:8px 0 0 8px;background:#1d2128;color:#eceff4;cursor:pointer;font-size:15px" style-hover="background:#ffb02e;color:#1d1406;border-color:#ffb02e">−</button>
+<input type="number" min="0" step="1" value="{{ m.qty }}" onChange="{{ m.set }}" style="width:54px;height:34px;text-align:center;border:1px solid #2c313a;background:#1d2128;color:#eceff4;font-size:14px;font-family:'IBM Plex Mono',monospace">
+<button onClick="{{ m.inc }}" style="width:30px;height:34px;border:1px solid #2c313a;border-left:0;border-radius:0 8px 8px 0;background:#1d2128;color:#eceff4;cursor:pointer;font-size:15px" style-hover="background:#ffb02e;color:#1d1406;border-color:#ffb02e">+</button>
+</div>
+</div>
+</sc-for>
+<div style="display:flex;gap:8px;margin-top:18px;flex-wrap:wrap">
+<button onClick="{{ startRun }}" style="flex:1;padding:11px 18px;border-radius:10px;border:0;background:#ffb02e;color:#1d1406;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap" style-hover="background:#ffc157">▶ Iniciar compra</button>
+<button onClick="{{ clearOrder }}" style="padding:11px 16px;border-radius:10px;border:1px solid #2c313a;background:#181c22;color:#a9b3c1;font-size:12.5px;cursor:pointer" style-hover="border-color:#3a4150;color:#eceff4">↺ Zerar</button>
+</div>
+<div style="font-size:11px;color:#6f7887;margin-top:11px;line-height:1.6">Iniciar congela estas quantidades num lote e leva você direto pro acompanhamento.</div>
+</div>
+
+<div style="background:#14171b;border:1px solid #23272f;border-radius:16px;padding:20px">
+<div style="font:600 15px 'Space Grotesk',sans-serif;margin-bottom:12px">Ajustes</div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0">
+<div><div style="font-size:13px">Margem de sobra</div><div style="font-size:11px;color:#8a94a2;margin-top:3px">um extra para perdas e queima</div></div>
+<div style="display:flex;align-items:center;gap:7px;flex:none">
+<input type="number" min="0" max="100" step="1" value="{{ spare }}" onChange="{{ setSpare }}" style="width:62px;background:#1d2128;border:1px solid #2c313a;border-radius:8px;color:#eceff4;padding:7px 9px;font-size:13px;text-align:right;font-family:'IBM Plex Mono',monospace">
+<span style="font-size:12px;color:#8a94a2">%</span>
+</div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 3px">
+<div><div style="font-size:13px">Mostrar custos</div><div style="font-size:11px;color:#8a94a2;margin-top:3px">preço unitário e subtotal na lista</div></div>
+<button onClick="{{ togglePrice }}" style="width:46px;height:26px;border-radius:20px;border:0;cursor:pointer;position:relative;flex:none;transition:background .2s;background:{{ priceTrack }}">
+<span style="position:absolute;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s;left:{{ priceKnob }}"></span>
+</button>
+</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+<div style="background:#14171b;border:1px solid #23272f;border-radius:16px;padding:20px">
+<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+<div style="font:600 15px 'Space Grotesk',sans-serif">Lista de compras</div>
+<div style="font-size:11.5px;color:#8a94a2">{{ listSub }}</div>
+<div style="flex:1"></div>
+<button onClick="{{ csv }}" class="noprint" style="padding:7px 13px;border-radius:8px;border:1px solid #2c313a;background:#181c22;color:#a9b3c1;font-size:11.5px;cursor:pointer;white-space:nowrap" style-hover="border-color:#3a4150;color:#eceff4">↓ Exportar CSV</button>
+</div>
+<sc-if value="{{ hasWarn }}">
+<div style="background:rgba(255,176,46,.1);border:1px solid #4a3a12;color:#ffb02e;padding:11px 13px;border-radius:10px;font-size:12.5px;margin-bottom:14px">Sem lista de peças cadastrada: {{ warnNames }}. Cadastre em “Peças e modelos”.</div>
+</sc-if>
+<sc-if value="{{ emptyResult }}">
+<div style="padding:44px;text-align:center;color:#8a94a2;font-size:13px">Escolha a quantidade de pelo menos um modelo aqui do lado.</div>
+</sc-if>
+<sc-for list="{{ resultCats }}" as="c" hint-placeholder-count="3">
+<div style="margin-bottom:20px">
+<div style="font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:#6f7887;font-weight:600;padding:0 2px 9px">{{ c.cat }}</div>
+<sc-for list="{{ c.rows }}" as="r" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:12px;padding:10px 2px;border-top:1px solid #1f232a">
+<div style="flex:1;min-width:0">
+<div style="font-size:13px;font-weight:500">{{ r.name }}</div>
+<div style="font-size:11px;color:#6f7887;margin-top:3px">{{ r.sub }}</div>
+</div>
+<sc-if value="{{ showPrice }}">
+<input type="number" min="0" step="0.01" value="{{ r.price }}" onChange="{{ r.setPrice }}" style="width:82px;background:#1d2128;border:1px solid #2c313a;border-radius:8px;color:#eceff4;padding:6px 8px;font-size:12px;text-align:right;font-family:'IBM Plex Mono',monospace;flex:none">
+</sc-if>
+<sc-if value="{{ showPrice }}">
+<span style="width:88px;text-align:right;font:400 12.5px 'IBM Plex Mono',monospace;color:#a9b3c1;flex:none">{{ r.subtotal }}</span>
+</sc-if>
+<span style="width:52px;text-align:right;font:600 15px 'IBM Plex Mono',monospace;color:#56d364;flex:none">{{ r.final }}</span>
+<div style="width:180px;display:flex;justify-content:flex-end;gap:5px;flex:none" class="noprint">
+<sc-if value="{{ r.hasUrl }}"><a href="{{ r.url }}" target="_blank" rel="noopener noreferrer" style="padding:6px 11px;border-radius:8px;border:1px solid #2c313a;color:#a9b3c1;font-size:11.5px;background:#181c22;max-width:132px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block" style-hover="border-color:#ffb02e;color:#ffb02e">{{ r.host }} ↗</a></sc-if>
+<button onClick="{{ r.editLink }}" style="padding:6px 10px;border-radius:8px;border:1px dashed #2c313a;background:none;color:#6f7887;font-size:11.5px;cursor:pointer;white-space:nowrap" style-hover="color:#ffb02e;border-color:#ffb02e">{{ r.linkLabel }}</button>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-for>
+<sc-if value="{{ hasResult }}">
+<div style="display:flex;align-items:center;gap:12px;padding:15px 2px 0;border-top:2px solid #262b33">
+<span style="flex:1;font-size:13.5px;font-weight:600">Total</span>
+<sc-if value="{{ showPrice }}"><span style="font:600 15px 'IBM Plex Mono',monospace;color:#ffb02e">{{ totalCost }}</span></sc-if>
+<span style="width:52px;text-align:right;font:600 16px 'IBM Plex Mono',monospace;color:#56d364">{{ totalUnits }}</span>
+<span style="width:180px" class="noprint"></span>
+</div>
+</sc-if>
+</div>
+
+<sc-if value="{{ hasResult }}">
+<div style="background:#14171b;border:1px solid #23272f;border-radius:16px;padding:20px">
+<div style="font:600 15px 'Space Grotesk',sans-serif;margin-bottom:18px">Peça por peça, modelo a modelo</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:22px">
+<sc-for list="{{ breakdown }}" as="m" hint-placeholder-count="2">
+<div>
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+<img src="{{ m.img }}" alt="{{ m.name }}" style="width:42px;height:42px;object-fit:cover;border-radius:50%;flex:none">
+<div style="font-size:13.5px;font-weight:600">{{ m.name }}</div>
+<div style="font-size:11px;color:#8a94a2;background:#1d2128;border-radius:20px;padding:3px 9px">{{ m.qty }} un.</div>
+</div>
+<sc-for list="{{ m.rows }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:10px;padding:7px 2px;border-top:1px solid #1f232a;font-size:12.5px">
+<span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
+<span style="font:400 11.5px 'IBM Plex Mono',monospace;color:#6f7887">{{ r.per }} ×</span>
+<span style="width:46px;text-align:right;font:600 12.5px 'IBM Plex Mono',monospace;color:#56d364">{{ r.total }}</span>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isHistory }}">
+<div style="animation:fade .3s">
+<div class="page-heading" style="display:flex;align-items:flex-end;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+<div style="flex:1;min-width:250px">
+<div class="eyebrow">Memória da produção</div>
+<h1 style="margin-top:5px">Histórico e estoque</h1>
+<div style="font-size:12.5px;color:#8a94a2;margin-top:7px">As sobras dos lotes ficam disponíveis e são descontadas automaticamente da próxima compra.</div>
+</div>
+</div>
+
+<div class="history-summary" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px">
+<div style="background:linear-gradient(135deg,#101a13,#14171b);border:1px solid #1f4227;border-radius:13px;padding:16px 18px">
+<div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2;font-weight:500">Peças no estoque</div>
+<div style="font:600 25px/1 'Space Grotesk',sans-serif;margin-top:11px;color:#56d364">{{ stockUnits }}</div>
+</div>
+<div style="background:#14171b;border:1px solid #23272f;border-radius:13px;padding:16px 18px">
+<div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2;font-weight:500">Tipos disponíveis</div>
+<div style="font:600 25px/1 'Space Grotesk',sans-serif;margin-top:11px">{{ stockTypes }}</div>
+</div>
+<div style="background:#14171b;border:1px solid #23272f;border-radius:13px;padding:16px 18px">
+<div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2;font-weight:500">Lotes encerrados</div>
+<div style="font:600 25px/1 'Space Grotesk',sans-serif;margin-top:11px">{{ historyCount }}</div>
+</div>
+</div>
+
+<div class="history-grid" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start">
+<div class="inventory-panel" style="background:#14171b;border:1px solid #23272f;border-radius:18px;padding:22px;min-width:0">
+<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px">
+<div style="font:600 15px 'Space Grotesk',sans-serif">Estoque de peças</div>
+<div style="flex:1"></div>
+<div style="font:500 11px 'IBM Plex Mono',monospace;color:#56d364">{{ stockValue }}</div>
+</div>
+<div style="font-size:11.5px;color:#8a94a2;margin-bottom:14px">Ajuste manualmente quando fizer uma contagem física.</div>
+<sc-for list="{{ stockRows }}" as="r" hint-placeholder-count="8">
+<div class="stock-row" style="display:flex;align-items:center;gap:12px;padding:10px 2px;border-top:1px solid #1f232a">
+<div style="flex:1;min-width:0">
+<div style="font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</div>
+<div class="stock-status" style="color:{{ r.statusColor }}"><span class="stock-dot" style="background:{{ r.statusColor }}"></span>{{ r.cat }} · {{ r.status }}</div>
+</div>
+<input type="number" min="0" step="1" value="{{ r.qty }}" onChange="{{ r.setQty }}" aria-label="Estoque de {{ r.name }}" style="width:72px;background:#1d2128;border:1px solid #2c313a;border-radius:8px;color:#eceff4;padding:7px 9px;font-size:13px;text-align:right;font-family:'IBM Plex Mono',monospace">
+</div>
+</sc-for>
+</div>
+
+<div class="history-list" style="display:flex;flex-direction:column;gap:12px;min-width:0">
+<sc-if value="{{ historyEmpty }}">
+<div style="background:#14171b;border:1px solid #23272f;border-radius:16px;padding:46px 30px;text-align:center">
+<div style="font:600 16px 'Space Grotesk',sans-serif">Nenhum lote encerrado ainda</div>
+<div style="font-size:12.5px;color:#8a94a2;line-height:1.6;margin-top:8px">Quando você encerrar uma compra, o resumo e as sobras aparecerão aqui.</div>
+</div>
+</sc-if>
+<sc-for list="{{ historyRows }}" as="h" hint-placeholder-count="3">
+<div class="history-card" style="background:#14171b;border:1px solid #23272f;border-radius:16px;padding:18px 20px">
+<div style="display:flex;align-items:flex-start;gap:12px">
+<div style="flex:1;min-width:0">
+<div style="font:600 15px 'Space Grotesk',sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ h.order }}</div>
+<div style="font-size:11px;color:#8a94a2;margin-top:5px">Iniciado em {{ h.started }} · encerrado em {{ h.closed }}</div>
+</div>
+<div style="font:600 18px 'IBM Plex Mono',monospace;color:{{ h.color }}">{{ h.pct }}%</div>
+</div>
+<div class="history-metrics" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:15px">
+<div style="background:#181c22;border-radius:9px;padding:10px"><div style="font-size:9.5px;text-transform:uppercase;letter-spacing:.7px;color:#6f7887">Peças</div><div style="font:600 13px 'IBM Plex Mono',monospace;margin-top:5px">{{ h.got }} / {{ h.need }}</div></div>
+<div style="background:#181c22;border-radius:9px;padding:10px"><div style="font-size:9.5px;text-transform:uppercase;letter-spacing:.7px;color:#6f7887">Gasto</div><div style="font:600 13px 'IBM Plex Mono',monospace;margin-top:5px">{{ h.spent }}</div></div>
+<div style="background:#181c22;border-radius:9px;padding:10px"><div style="font-size:9.5px;text-transform:uppercase;letter-spacing:.7px;color:#6f7887">Sobras</div><div style="font:600 13px 'IBM Plex Mono',monospace;color:#56d364;margin-top:5px">{{ h.surplus }}</div></div>
+</div>
+<button onClick="{{ h.duplicate }}" style="margin-top:13px;width:100%;padding:9px;border-radius:9px;border:1px solid #3a331f;background:#211d14;color:#ffb02e;font-size:12px;font-weight:500;cursor:pointer" style-hover="background:#2a2417;border-color:#5a4921">↗ Duplicar na calculadora</button>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isBom }}">
+<div class="page-heading">
+<div class="eyebrow">Configuração técnica</div>
+<h1>Peças e modelos</h1>
+<p>Organize os componentes, links de compra e listas de materiais de cada produto.</p>
+</div>
+<div class="bom-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(440px,1fr));gap:16px;align-items:start;animation:fade .3s">
+
+<div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+<div style="background:#14171b;border:1px solid #23272f;border-radius:16px;padding:20px">
+<div style="font:600 15px 'Space Grotesk',sans-serif;margin-bottom:12px">Modelos</div>
+<sc-for list="{{ editModels }}" as="m" hint-placeholder-count="2">
+<div style="display:flex;gap:8px;align-items:center;padding:9px 0;border-top:1px solid #1f232a;flex-wrap:wrap">
+<input type="text" value="{{ m.name }}" onChange="{{ m.setName }}" style="flex:1;min-width:130px;background:#1d2128;border:1px solid #2c313a;border-radius:8px;color:#eceff4;padding:8px 10px;font-size:12.5px">
+<div style="width:124px;flex:none">
+<div style="font-size:9.5px;color:#8a94a2;text-transform:uppercase;letter-spacing:.7px;margin:0 0 4px 2px">Venda (R$)</div>
+<input type="number" min="0" step="0.01" value="{{ m.salePrice }}" onChange="{{ m.setSalePrice }}" placeholder="0,00" style="width:100%;box-sizing:border-box;background:#1d2128;border:1px solid #2c313a;border-radius:8px;color:#eceff4;padding:8px 10px;font-size:12.5px">
+</div>
+<input type="text" value="{{ m.img }}" onChange="{{ m.setImg }}" placeholder="imagem (8SW.png)" style="flex:1;min-width:130px;background:#1d2128;border:1px solid #2c313a;border-radius:8px;color:#8a94a2;padding:8px 10px;font-size:12px">
+<button onClick="{{ m.del }}" style="width:30px;height:32px;border-radius:8px;border:1px solid #2c313a;background:#181c22;color:#6f7887;cursor:pointer;font-size:13px;flex:none" style-hover="color:#ff8f8f;border-color:#5a2b2b">✕</button>
+</div>
+</sc-for>
+<div style="display:flex;gap:8px;margin-top:14px">
+<input type="text" value="{{ newModel }}" onChange="{{ setNewModel }}" placeholder="Nome do novo modelo" style="flex:1;min-width:0;background:#1d2128;border:1px solid #2c313a;border-radius:9px;color:#eceff4;padding:9px 11px;font-size:12.5px">
+<button onClick="{{ addModel }}" style="padding:9px 16px;border-radius:9px;border:0;background:#ffb02e;color:#1d1406;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;flex:none" style-hover="background:#ffc157">Adicionar</button>
+</div>
+</div>
+
+<div style="background:#14171b;border:1px solid #23272f;border-radius:16px;padding:20px">
+<div style="font:600 15px 'Space Grotesk',sans-serif;margin-bottom:5px">Cadastro de peças</div>
+<div style="font-size:11.5px;color:#8a94a2;margin-bottom:12px">Nome, categoria, forma de cobrança, variação do anúncio e link de compra.</div>
+<sc-for list="{{ editParts }}" as="p" hint-placeholder-count="6">
+<div style="padding:12px 0;border-top:1px solid #1f232a">
+<div style="display:flex;gap:8px;align-items:center;margin-bottom:7px">
+<input type="text" value="{{ p.name }}" onChange="{{ p.setName }}" style="flex:1;min-width:110px;background:#1d2128;border:1px solid #2c313a;border-radius:8px;color:#eceff4;padding:8px 10px;font-size:12.5px">
+<input type="text" value="{{ p.cat }}" onChange="{{ p.setCat }}" placeholder="categoria" style="width:116px;flex:none;background:#1d2128;border:1px solid #2c313a;border-radius:8px;color:#a9b3c1;padding:8px 10px;font-size:12px">
+<button onClick="{{ p.del }}" style="width:30px;height:32px;border-radius:8px;border:1px solid #2c313a;background:#181c22;color:#6f7887;cursor:pointer;font-size:13px;flex:none" style-hover="color:#ff8f8f;border-color:#5a2b2b">✕</button>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<select value="{{ p.chargeMode }}" onChange="{{ p.setChargeMode }}" title="Como a quantidade desta peça é calculada" style="width:136px;flex:none;background:#1d2128;border:1px solid #2c313a;border-radius:8px;color:#a9b3c1;padding:7px 8px;font-size:11.5px">
+<option value="unit">Por unidade</option>
+<option value="model">1× por modelo</option>
+<option value="lot">1× por lote</option>
+</select>
+<input type="text" value="{{ p.variant }}" onChange="{{ p.setVariant }}" placeholder="opção / variação no anúncio" style="flex:1;min-width:100px;background:#1d2128;border:1px solid #2c313a;border-radius:8px;color:#8a94a2;padding:7px 10px;font-size:11.5px">
+<input type="text" value="{{ p.url }}" onChange="{{ p.setUrl }}" placeholder="link de compra" style="flex:1;min-width:100px;background:#1d2128;border:1px solid #2c313a;border-radius:8px;color:#8a94a2;padding:7px 10px;font-size:11.5px">
+</div>
+</div>
+</sc-for>
+<div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+<input type="text" value="{{ newPart }}" onChange="{{ setNewPart }}" placeholder="Nome da peça" style="flex:1;min-width:130px;background:#1d2128;border:1px solid #2c313a;border-radius:9px;color:#eceff4;padding:9px 11px;font-size:12.5px">
+<input type="text" value="{{ newCat }}" onChange="{{ setNewCat }}" placeholder="Categoria" style="width:116px;flex:none;background:#1d2128;border:1px solid #2c313a;border-radius:9px;color:#eceff4;padding:9px 11px;font-size:12.5px">
+<button onClick="{{ addPart }}" style="padding:9px 16px;border-radius:9px;border:0;background:#ffb02e;color:#1d1406;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;flex:none" style-hover="background:#ffc157">Adicionar</button>
+</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+<div style="background:#14171b;border:1px solid #23272f;border-radius:16px;padding:20px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+<div style="font:600 15px 'Space Grotesk',sans-serif">Peças de um modelo</div>
+<div style="flex:1"></div>
+<select value="{{ bomModel }}" onChange="{{ setBomModel }}" style="background:#1d2128;border:1px solid #2c313a;border-radius:9px;color:#eceff4;padding:8px 10px;font-size:12.5px;min-width:150px">
+<sc-for list="{{ modelOptions }}" as="o" hint-placeholder-count="2"><option value="{{ o.id }}">{{ o.name }}</option></sc-for>
+</select>
+</div>
+<sc-if value="{{ bomEmpty }}">
+<div style="padding:28px;text-align:center;color:#8a94a2;font-size:12.5px">Nenhuma peça neste modelo ainda. Use o campo abaixo para incluir.</div>
+</sc-if>
+<sc-for list="{{ bomRows }}" as="r" hint-placeholder-count="6">
+<div style="display:flex;align-items:center;gap:10px;padding:9px 2px;border-top:1px solid #1f232a">
+<span style="flex:1;min-width:0;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
+<input type="number" min="1" step="1" value="{{ r.qty }}" onChange="{{ r.setQty }}" style="width:64px;flex:none;background:#1d2128;border:1px solid #2c313a;border-radius:8px;color:#eceff4;padding:6px 9px;font-size:12.5px;text-align:right;font-family:'IBM Plex Mono',monospace">
+<span style="font-size:11px;color:{{ r.basisColor }};width:72px;flex:none">{{ r.basisLabel }}</span>
+<button onClick="{{ r.del }}" style="width:28px;height:28px;border-radius:7px;border:1px solid #2c313a;background:#181c22;color:#6f7887;cursor:pointer;font-size:12px;flex:none" style-hover="color:#ff8f8f;border-color:#5a2b2b">✕</button>
+</div>
+</sc-for>
+<div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+<select value="{{ addPartSel }}" onChange="{{ setAddPartSel }}" style="flex:1;min-width:150px;background:#1d2128;border:1px solid #2c313a;border-radius:9px;color:#eceff4;padding:9px 10px;font-size:12.5px">
+<sc-for list="{{ addPartOptions }}" as="o" hint-placeholder-count="4"><option value="{{ o.id }}">{{ o.name }}</option></sc-for>
+</select>
+<input type="number" min="1" step="1" value="{{ addPartQty }}" onChange="{{ setAddPartQty }}" style="width:64px;flex:none;background:#1d2128;border:1px solid #2c313a;border-radius:9px;color:#eceff4;padding:9px 10px;font-size:12.5px;text-align:right;font-family:'IBM Plex Mono',monospace">
+<button onClick="{{ addToBom }}" style="padding:9px 16px;border-radius:9px;border:0;background:#ffb02e;color:#1d1406;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;flex:none" style-hover="background:#ffc157">Incluir</button>
+</div>
+</div>
+
+<div style="background:#14171b;border:1px solid #23272f;border-radius:16px;padding:20px">
+<div style="font:600 15px 'Space Grotesk',sans-serif;margin-bottom:5px">Seus dados</div>
+<div style="font-size:11.5px;color:#8a94a2;margin-bottom:14px">Fica tudo salvo neste navegador. Vale guardar um backup de vez em quando.</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button onClick="{{ backup }}" style="padding:9px 14px;border-radius:9px;border:1px solid #2c313a;background:#181c22;color:#a9b3c1;font-size:12.5px;cursor:pointer" style-hover="border-color:#3a4150;color:#eceff4">Salvar backup (.json)</button>
+<button onClick="{{ restore }}" style="padding:9px 14px;border-radius:9px;border:1px solid #2c313a;background:#181c22;color:#a9b3c1;font-size:12.5px;cursor:pointer" style-hover="border-color:#3a4150;color:#eceff4">Restaurar</button>
+<button onClick="{{ askReset }}" style="padding:9px 14px;border-radius:9px;border:1px solid #2c313a;background:#181c22;color:#8a94a2;font-size:12.5px;cursor:pointer" style-hover="border-color:#5a2b2b;color:#ff8f8f">Voltar ao padrão</button>
+</div>
+<input type="file" accept=".json" ref="{{ fileRef }}" onChange="{{ onFile }}" style="display:none">
+</div>
+</div>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ modalOpen }}">
+<div class="noprint">
+<div onClick="{{ closeModal }}" style="position:fixed;inset:0;background:rgba(5,6,8,.65);backdrop-filter:blur(3px);z-index:40;animation:fade .2s"></div>
+<div style="position:fixed;top:0;right:0;bottom:0;width:414px;max-width:100vw;background:#14171b;border-left:1px solid #262b33;z-index:41;padding:26px 26px 30px;overflow:auto;animation:slidein .25s ease;box-shadow:-20px 0 60px rgba(0,0,0,.45)">
+
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+<div style="flex:1;font:600 17px 'Space Grotesk',sans-serif">{{ modalTitle }}</div>
+<button onClick="{{ closeModal }}" style="width:30px;height:30px;border-radius:8px;border:1px solid #2c313a;background:#181c22;color:#8a94a2;cursor:pointer;font-size:14px;flex:none" style-hover="color:#eceff4;border-color:#3a4150">✕</button>
+</div>
+
+<sc-if value="{{ isBuyModal }}">
+<div>
+<div style="font-size:11px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2;margin-bottom:8px">Qual peça você comprou?</div>
+<select class="purchase-select" value="{{ modalPid }}" onChange="{{ setModalPid }}" style="width:100%;background:#1d2128;border:1px solid #2c313a;border-radius:10px;color:{{ modalSelectColor }};padding:11px 12px;font-size:13px;font-weight:600;margin-bottom:9px">
+<sc-for list="{{ modalParts }}" as="o" hint-placeholder-count="5"><option value="{{ o.id }}" style="color:{{ o.color }};background:#1d2128;font-weight:600">{{ o.label }}</option></sc-for>
+</select>
+<div style="display:flex;gap:13px;align-items:center;flex-wrap:wrap;margin-bottom:18px;font-size:10.5px;color:#8a94a2">
+<span style="display:flex;align-items:center;gap:5px"><i style="width:7px;height:7px;border-radius:50%;background:#58d66b"></i> completo</span>
+<span style="display:flex;align-items:center;gap:5px"><i style="width:7px;height:7px;border-radius:50%;background:#f3c64d"></i> faltando</span>
+<span style="display:flex;align-items:center;gap:5px"><i style="width:7px;height:7px;border-radius:50%;background:#ff6b6b"></i> sem compra</span>
+</div>
+
+<div style="display:flex;gap:10px;margin-bottom:18px">
+<div style="flex:1">
+<div style="font-size:11px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2;margin-bottom:8px">Quantas</div>
+<input type="number" min="1" step="1" value="{{ modalQty }}" onChange="{{ setModalQty }}" placeholder="0" style="width:100%;background:#1d2128;border:1px solid #2c313a;border-radius:10px;color:#eceff4;padding:11px 12px;font-size:15px;font-family:'IBM Plex Mono',monospace">
+</div>
+<div style="flex:1">
+<div style="font-size:11px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2;margin-bottom:8px">Quanto deu (R$)</div>
+<input type="number" min="0" step="0.01" value="{{ modalVal }}" onChange="{{ setModalVal }}" placeholder="0,00" style="width:100%;background:#1d2128;border:1px solid #2c313a;border-radius:10px;color:#eceff4;padding:11px 12px;font-size:15px;font-family:'IBM Plex Mono',monospace">
+</div>
+</div>
+
+<div style="background:#181c22;border:1px solid #23272f;border-radius:12px;padding:14px 15px;margin-bottom:12px">
+<div style="font-size:11px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2;margin-bottom:10px">Como vai ser dividido</div>
+<div style="font-size:12.5px;color:#c6cdd8;line-height:1.6">{{ splitText }}</div>
+<sc-for list="{{ splitRows }}" as="s" hint-placeholder-count="2">
+<div style="display:flex;align-items:center;gap:10px;margin-top:9px;font-size:12.5px">
+<span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.name }}</span>
+<span style="font:600 13px 'IBM Plex Mono',monospace;color:#56d364">+{{ s.q }}</span>
+</div>
+</sc-for>
+</div>
+
+<sc-if value="{{ modalUnit }}">
+<div style="font-size:11.5px;color:#6f7887;margin-bottom:18px">Sai a {{ modalUnitStr }} por unidade.</div>
+</sc-if>
+
+<button onClick="{{ confirmBuy }}" style="width:100%;padding:13px;border-radius:11px;border:0;background:#ffb02e;color:#1d1406;font-size:13.5px;font-weight:600;cursor:pointer" style-hover="background:#ffc157">Registrar compra</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ isLinkModal }}">
+<div>
+<div style="font-size:12.5px;color:#8a94a2;margin-bottom:14px;line-height:1.6">{{ linkPartName }}</div>
+<div style="font-size:11px;text-transform:uppercase;letter-spacing:.9px;color:#8a94a2;margin-bottom:8px">Link de compra</div>
+<input type="text" value="{{ modalUrl }}" onChange="{{ setModalUrl }}" placeholder="https://…" style="width:100%;background:#1d2128;border:1px solid #2c313a;border-radius:10px;color:#eceff4;padding:11px 12px;font-size:13px;margin-bottom:8px">
+<div style="font-size:11px;color:#6f7887;margin-bottom:20px;line-height:1.6">Deixe em branco para remover o link.</div>
+<button onClick="{{ confirmLink }}" style="width:100%;padding:13px;border-radius:11px;border:0;background:#ffb02e;color:#1d1406;font-size:13.5px;font-weight:600;cursor:pointer" style-hover="background:#ffc157">Salvar link</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ isConfirmModal }}">
+<div>
+<div style="font-size:13px;color:#c6cdd8;line-height:1.65;margin-bottom:22px">{{ confirmText }}</div>
+<div style="display:flex;gap:9px">
+<button onClick="{{ closeModal }}" style="flex:1;padding:12px;border-radius:11px;border:1px solid #2c313a;background:#181c22;color:#a9b3c1;font-size:13px;cursor:pointer" style-hover="border-color:#3a4150;color:#eceff4">Cancelar</button>
+<button onClick="{{ confirmAction }}" style="flex:1;padding:12px;border-radius:11px;border:0;background:#c0392b;color:#fff;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#d84a3b">{{ confirmLabel }}</button>
+</div>
+</div>
+</sc-if>
+
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}">
+<div class="noprint" style="position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:50;background:#1d2128;border:1px solid #2f3742;border-radius:11px;padding:12px 20px;font-size:13px;color:#eceff4;box-shadow:0 12px 40px rgba(0,0,0,.5);animation:rise .25s">{{ toast }}</div>
+</sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;abaInicial&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;run&quot;,&quot;calc&quot;,&quot;history&quot;,&quot;bom&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Comportamento&quot;},&quot;margemPadrao&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:50,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Comportamento&quot;},&quot;mostrarCustos&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamento&quot;}}">
+class Component extends DCLogic {
+  seed() {
+    return {
+      parts: {
+        pcb_8sw:{name:"PCB 8SW+",cat:"Placa",price:0,nolink:true},
+        pcb_nano:{name:"PCB NANO+",cat:"Placa",price:0,nolink:true},
+        sw_spst:{name:"Chave SPST",cat:"Eletromecânica",price:0,url:"https://pt.aliexpress.com/item/1005006163316744.html"},
+        nylon_rig:{name:"Nylon Rig",cat:"Eletromecânica",price:0,url:"https://pt.aliexpress.com/item/1005005888885990.html",variant:"M12x20x1 White"},
+        display:{name:"Display",cat:"Interface",price:0,url:"https://pt.aliexpress.com/item/1005006175220737.html",variant:"ST7796S LCD 480x320"},
+        esp_n16r8:{name:"ESP32-S3 N16R8",cat:"Microcontroladores",price:0,url:"https://pt.aliexpress.com/item/1005005230800143.html",variant:"ESP32-S3-WROOM-1-N16R8"},
+        esp_zero:{name:"ESP32-S3 ZERO (host)",cat:"Microcontroladores",price:0,url:"https://pt.aliexpress.com/item/1005009890203011.html",variant:"ESP32-S3-zero"},
+        usb_b:{name:"Conector USB-B",cat:"Conectores",price:0,url:"https://www.mercadolivre.com.br/10-pecas--conector-usb-tipo-b-90-graus-solda-placa/up/MLBU1402487868?pdp_filters=item_id:MLB1210749366",variant:"USB tipo B 90 graus, solda em placa"},
+        din5:{name:"Conector DIN5",cat:"Conectores",price:0,url:"https://pt.aliexpress.com/item/1005010728419039.html",variant:"DIN 5 pinos Jack DS-5-01 MIDI"},
+        conn_dc:{name:"Conector DC",cat:"Conectores",price:0,url:"https://pt.aliexpress.com/item/1005005261273233.html",variant:"DC-005 2.1mm"},
+        fonte_dc5:{name:"Fonte DC 5V",cat:"Alimentação",price:0,url:"https://pt.aliexpress.com/item/1005006308573192.html",variant:"DC-DC Buck Converter Step Down Module 5V 3A"},
+        cx_met_8sw:{name:"Caixa Metal 8SW+",cat:"Gabinete",price:0,nolink:true},
+        cx_met_nano:{name:"Caixa Metal NANO+",cat:"Gabinete",price:0,nolink:true},
+        cx_cor_8sw:{name:"Caixa Correio 8SW+",cat:"Embalagem",price:0,url:"https://www.rpcaixas.com.br/produtos/caixa-de-papelao-montavel-branca-25-x-17-x-07/",variant:"Papelão branco montável 25 x 17 x 07"},
+        cx_cor_nano:{name:"Caixa Correio NANO+",cat:"Embalagem",price:0,url:"https://www.rpcaixas.com.br/produtos/caixa-de-papelao-branco-montavel-19-x-12-x-07/",variant:"Papelão branco montável 19 x 12 x 07"},
+        envelope:{name:"Envelope Correio",cat:"Embalagem",price:0,url:"https://www.mercadolivre.com.br/envelope-seguranca-com-bolha-cinza-saco-correios-26x36-50u/up/MLBU1981772812?pdp_filters=item_id:MLB3684479737",variant:"Segurança com bolha, cinza, 26x36 (pacote 50)"}
+      },
+      models: {
+        m8swp:{name:"BFMiDi 8SW+",img:"8SW.png",salePrice:0,bom:{pcb_8sw:1,sw_spst:8,nylon_rig:8,fonte_dc5:1,display:1,usb_b:1,din5:1,conn_dc:1,esp_n16r8:1,esp_zero:1,cx_met_8sw:1,cx_cor_8sw:1,envelope:1}},
+        mnanop:{name:"BFMiDi NANO+",img:"NANO.png",salePrice:0,bom:{pcb_nano:1,sw_spst:6,nylon_rig:6,fonte_dc5:1,display:1,usb_b:1,conn_dc:1,esp_n16r8:1,esp_zero:1,cx_met_nano:1,cx_cor_nano:1,envelope:1}}
+      }
+    };
+  }
+
+  lsGet(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
+
+  migrate(db) {
+    const S = this.seed();
+    db.seenSeed = db.seenSeed || Object.keys(db.parts);
+    const novas = [];
+    for (const [pid, sp] of Object.entries(S.parts)) {
+      if (!db.seenSeed.includes(pid)) { db.parts[pid] = JSON.parse(JSON.stringify(sp)); db.seenSeed.push(pid); novas.push(pid); continue; }
+      if (!db.parts[pid]) continue;
+      if (sp.url && !db.parts[pid].url) db.parts[pid].url = sp.url;
+      if (sp.variant && !db.parts[pid].variant) db.parts[pid].variant = sp.variant;
+      if (sp.nolink && !db.parts[pid].url) db.parts[pid].nolink = true;
+    }
+    const autoFixedPids = [];
+    for (const [pid, part] of Object.entries(db.parts || {})) {
+      const isDhlTax = /frete.*dhl.*imposto/i.test(String(part.name || ""));
+      if (part.perModel == null) part.perModel = isDhlTax;
+      if (!["unit", "model", "lot"].includes(part.chargeMode)) part.chargeMode = part.perLot ? "lot" : part.perModel ? "model" : "unit";
+      part.perModel = part.chargeMode === "model";
+      part.perLot = part.chargeMode === "lot";
+      if (isDhlTax && !part.fixedModelsInitialized) autoFixedPids.push(pid);
+    }
+    for (const [mid, sm] of Object.entries(S.models)) {
+      if (!db.models[mid]) continue;
+      const legacyImg = { m8swp: "8SW.svg", mnanop: "NANO.svg" }[mid];
+      if (sm.img && (!db.models[mid].img || db.models[mid].img === legacyImg)) db.models[mid].img = sm.img;
+      if (db.models[mid].salePrice == null) db.models[mid].salePrice = Number(sm.salePrice) || 0;
+      for (const pid of novas) if (sm.bom[pid] && !(pid in db.models[mid].bom)) db.models[mid].bom[pid] = sm.bom[pid];
+    }
+    for (const pid of autoFixedPids) {
+      for (const model of Object.values(db.models || {})) {
+        model.bom = model.bom || {};
+        if (!(pid in model.bom)) model.bom[pid] = 1;
+      }
+      db.parts[pid].fixedModelsInitialized = true;
+    }
+    for (const model of Object.values(db.models || {})) if (model.salePrice == null) model.salePrice = 0;
+    return db;
+  }
+
+  migrateRun(run, db) {
+    if (!run) return run;
+    const legacyImgs = { m8swp: ["8SW.svg", "8SW.png"], mnanop: ["NANO.svg", "NANO.png"] };
+    for (const [mid, imgs] of Object.entries(legacyImgs)) {
+      if (run.bom && run.bom[mid] && (!run.bom[mid].img || run.bom[mid].img === imgs[0])) run.bom[mid].img = imgs[1];
+    }
+    run.stockUsed = run.stockUsed || {};
+    for (const mid of Object.keys(run.order || {})) run.stockUsed[mid] = run.stockUsed[mid] || {};
+    if (!run.order || run.needM) return run;
+    const spare = (Number(run.spare) || 0) / 100, antigas = run.buys || {};
+    run.needM = {}; run.buys = {};
+    for (const mid of Object.keys(run.order)) {
+      run.needM[mid] = {}; run.buys[mid] = {};
+      const parts = (run.bom[mid] || {}).parts || {};
+      for (const [pid, per] of Object.entries(parts)) run.needM[mid][pid] = Math.ceil(per * run.order[mid] * (1 + spare));
+    }
+    for (const [pid, lista] of Object.entries(antigas)) {
+      const mids = Object.keys(run.order).filter(m => run.needM[m][pid]);
+      if (!mids.length) continue;
+      const soma = mids.reduce((a, m) => a + run.needM[m][pid], 0);
+      for (const e of lista) {
+        let resto = e.q;
+        mids.forEach((m, i) => {
+          const q = (i === mids.length - 1) ? Math.max(0, resto) : Math.min(resto, Math.round(e.q * run.needM[m][pid] / soma));
+          resto -= q;
+          if (q > 0) (run.buys[m][pid] = run.buys[m][pid] || []).push({ q, v: e.v * q / e.q, at: e.at });
+        });
+      }
+    }
+    delete run.need;
+    return run;
+  }
+
+  init() {
+    const db = this.migrate(this.lsGet("bfmidi.db.v5", null) || JSON.parse(JSON.stringify(this.seed())));
+    const run = this.migrateRun(this.lsGet("bfmidi.run.v1", null), db);
+    const opts = Object.assign({ spare: 0, showPrice: false }, this.lsGet("bfmidi.opts.v1", {}));
+    const inventory = this.lsGet("bfmidi.inventory.v1", {});
+    const history = this.lsGet("bfmidi.history.v1", []).filter(h => h && h.run).map(h => Object.assign({}, h, { run: this.migrateRun(h.run, db) }));
+    const pref = this.props.abaInicial;
+    return {
+      db, run, opts, inventory, history,
+      order: this.lsGet("bfmidi.order.v1", {}),
+      tab: pref && pref !== "auto" ? pref : (run ? "run" : "calc"),
+      open: {}, qty: {}, modal: null, toast: null,
+      newModel: "", newPart: "", newCat: "", bomModel: "", addPartSel: "", addPartQty: 1
+    };
+  }
+
+  state = this.init();
+  fileRef = React.createRef();
+  toastTimer = null;
+
+  componentDidMount() {
+    const o = Object.assign({}, this.state.opts);
+    const patch = {};
+    if (this.props.margemPadrao != null && !localStorage.getItem("bfmidi.opts.v1")) { o.spare = this.props.margemPadrao; patch.opts = o; }
+    if (this.props.mostrarCustos && !localStorage.getItem("bfmidi.opts.v1")) { o.showPrice = true; patch.opts = o; }
+    if (this.state.run) {
+      const synced = this.syncRunWithDb(this.state.run, this.state.db, this.state.inventory);
+      if (synced.added || synced.changed || synced.pricingChanged) {
+        patch.run = synced.run;
+        patch.inventory = synced.inventory;
+      }
+    }
+    if (Object.keys(patch).length) this.setState(patch, () => this.persist());
+  }
+  componentWillUnmount() { clearTimeout(this.toastTimer); }
+
+  persist(s) {
+    const st = s || this.state;
+    try {
+      localStorage.setItem("bfmidi.db.v5", JSON.stringify(st.db));
+      localStorage.setItem("bfmidi.order.v1", JSON.stringify(st.order));
+      localStorage.setItem("bfmidi.opts.v1", JSON.stringify(st.opts));
+      localStorage.setItem("bfmidi.inventory.v1", JSON.stringify(st.inventory || {}));
+      localStorage.setItem("bfmidi.history.v1", JSON.stringify(st.history || []));
+      if (st.run) localStorage.setItem("bfmidi.run.v1", JSON.stringify(st.run));
+      else localStorage.removeItem("bfmidi.run.v1");
+    } catch (e) {}
+  }
+  commit(patch) { this.setState(patch, () => this.persist()); }
+  say(msg) {
+    clearTimeout(this.toastTimer);
+    this.setState({ toast: msg });
+    this.toastTimer = setTimeout(() => this.setState({ toast: null }), 2600);
+  }
+
+  brl(n) { return (Number(n) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }); }
+  uid(p) { return p + "_" + Math.random().toString(36).slice(2, 8); }
+  safeUrl(u) {
+    u = String(u || "").trim();
+    if (!u) return "";
+    if (!/^https?:\/\//i.test(u)) u = "https://" + u;
+    try { const p = new URL(u); return (p.protocol === "http:" || p.protocol === "https:") ? p.href : ""; } catch (e) { return ""; }
+  }
+  host(u) { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return "link"; } }
+  imgOf(m) { return (m && m.img) || "8SW.png"; }
+  partMode(p) {
+    if (!p) return "unit";
+    if (p.chargeMode === "lot" || p.perLot) return "lot";
+    if (p.chargeMode === "model" || p.perModel) return "model";
+    return "unit";
+  }
+
+  compute() {
+    const { db, order, opts } = this.state;
+    const spare = Math.max(0, Number(opts.spare) || 0) / 100;
+    const totals = {}, lotSeen = {};
+    for (const [mid, m] of Object.entries(db.models)) {
+      const n = Number(order[mid]) || 0;
+      if (n <= 0) continue;
+      for (const [pid, per] of Object.entries(m.bom)) {
+        if (!db.parts[pid]) continue;
+        const mode = this.partMode(db.parts[pid]);
+        if (mode === "lot" && lotSeen[pid]) continue;
+        if (mode === "lot") lotSeen[pid] = mid;
+        const fixedCharge = mode !== "unit";
+        const base = per * (fixedCharge ? 1 : n);
+        const fin = fixedCharge ? Math.ceil(base) : Math.ceil(base * (1 + spare));
+        const t = totals[pid] = totals[pid] || { base: 0, final: 0, byModelFinal: {} };
+        t.base += base; t.final += fin;
+        t.byModelFinal[mid] = (t.byModelFinal[mid] || 0) + fin;
+      }
+    }
+    return totals;
+  }
+
+  nomeRun(pid) { const { db, run } = this.state; return db.parts[pid] ? db.parts[pid].name : ((run && run.names || {})[pid] || pid); }
+
+  runStats(runArg) {
+    const run = runArg || this.state.run;
+    const M = {}, tot = { needT: 0, gotT: 0, spentT: 0, buys: 0, stockT: 0 };
+    if (!run) return { M, tot };
+    for (const mid of Object.keys(run.order)) {
+      const need = run.needM[mid] || {}, buys = run.buys[mid] || {}, stock = (run.stockUsed || {})[mid] || {};
+      const bought = {}, purchased = {}, spent = {}, avg = {};
+      let needT = 0, gotT = 0, spentT = 0, unit = 0, comPreco = 0;
+      const ps = Object.keys(need).filter(pid => (Number(need[pid]) || 0) > 0);
+      for (const pid of ps) {
+        const l = buys[pid] || [];
+        purchased[pid] = l.reduce((a, e) => a + e.q, 0);
+        bought[pid] = purchased[pid] + (Number(stock[pid]) || 0);
+        spent[pid] = l.reduce((a, e) => a + e.v, 0);
+        avg[pid] = purchased[pid] ? spent[pid] / purchased[pid] : 0;
+        needT += need[pid]; gotT += Math.min(bought[pid], need[pid]); spentT += spent[pid];
+        tot.buys += l.length;
+        tot.stockT += Number(stock[pid]) || 0;
+        if (purchased[pid]) {
+          const fixedPerModel = !!(((run.bom[mid] || {}).fixed || {})[pid]);
+          const divisor = fixedPerModel ? Math.max(1, Number(run.order[mid]) || 1) : 1;
+          unit += (run.bom[mid].parts[pid] || 0) * avg[pid] / divisor;
+          comPreco++;
+        }
+      }
+      M[mid] = { bought, purchased, spent, avg, needT, gotT, spentT, unit, comPreco, nParts: ps.length, pct: needT ? gotT / needT : 0 };
+      tot.needT += needT; tot.gotT += gotT; tot.spentT += spentT;
+    }
+    tot.pct = tot.needT ? tot.gotT / tot.needT : 0;
+    return { M, tot };
+  }
+
+  runSurplus(run) {
+    const s = this.runStats(run), out = {};
+    const pids = {};
+    for (const mid of Object.keys(run.order || {})) for (const pid of Object.keys((run.needM || {})[mid] || {})) pids[pid] = 1;
+    for (const pid of Object.keys(pids)) {
+      let need = 0, got = 0;
+      for (const mid of Object.keys(run.order || {})) {
+        need += Number(((run.needM || {})[mid] || {})[pid]) || 0;
+        got += Number((s.M[mid].bought || {})[pid]) || 0;
+      }
+      if (got > need) out[pid] = got - need;
+    }
+    return out;
+  }
+
+  closeRunData(run, inventory, history, status) {
+    const nr = JSON.parse(JSON.stringify(run));
+    const inv = JSON.parse(JSON.stringify(inventory || {}));
+    const hist = (history || []).slice();
+    const surplus = this.runSurplus(nr);
+    for (const [pid, q] of Object.entries(surplus)) inv[pid] = (Number(inv[pid]) || 0) + q;
+    hist.unshift({
+      id: this.uid("lot"),
+      closedAt: new Date().toISOString(),
+      status: status || "encerrado",
+      surplus,
+      run: nr
+    });
+    return { inventory: inv, history: hist };
+  }
+
+  allocateStock(run, inventory) {
+    run.stockUsed = {};
+    let used = 0;
+    for (const mid of Object.keys(run.order || {})) run.stockUsed[mid] = {};
+    const pids = {};
+    for (const mid of Object.keys(run.order || {})) for (const pid of Object.keys((run.needM || {})[mid] || {})) pids[pid] = 1;
+    for (const pid of Object.keys(pids)) {
+      let available = Math.max(0, Math.floor(Number(inventory[pid]) || 0));
+      if (!available) continue;
+      for (const mid of Object.keys(run.order || {})) {
+        const need = Number(((run.needM || {})[mid] || {})[pid]) || 0;
+        const take = Math.min(available, need);
+        if (take > 0) {
+          run.stockUsed[mid][pid] = take;
+          available -= take;
+          used += take;
+        }
+        if (!available) break;
+      }
+      if (available > 0) inventory[pid] = available;
+      else delete inventory[pid];
+    }
+    return used;
+  }
+
+  syncRunWithDb(run, db, inventory) {
+    const nr = JSON.parse(JSON.stringify(run));
+    const inv = JSON.parse(JSON.stringify(inventory || {}));
+    const spare = 1 + (Math.max(0, Number(nr.spare) || 0) / 100);
+    let added = 0, changed = 0, stockAdded = 0, pricingChanged = 0;
+    nr.needM = nr.needM || {};
+    nr.stockUsed = nr.stockUsed || {};
+    nr.buys = nr.buys || {};
+    nr.bom = nr.bom || {};
+    nr.names = nr.names || {};
+    const orderedMids = Object.keys(nr.order || {}), lotOwners = {};
+    for (const mid of orderedMids) {
+      nr.needM[mid] = nr.needM[mid] || {};
+      nr.stockUsed[mid] = nr.stockUsed[mid] || {};
+      nr.buys[mid] = nr.buys[mid] || {};
+      const model = db.models[mid];
+      if (!model) continue;
+      for (const pid of Object.keys(model.bom || {})) {
+        if (db.parts[pid] && this.partMode(db.parts[pid]) === "lot" && !lotOwners[pid]) lotOwners[pid] = mid;
+      }
+    }
+    for (const [mid, units] of Object.entries(nr.order || {})) {
+      const model = db.models[mid];
+      if (!model) continue;
+      nr.needM[mid] = nr.needM[mid] || {};
+      nr.stockUsed[mid] = nr.stockUsed[mid] || {};
+      nr.buys[mid] = nr.buys[mid] || {};
+      nr.bom[mid] = nr.bom[mid] || { parts: {} };
+      nr.bom[mid].name = model.name;
+      nr.bom[mid].img = this.imgOf(model);
+      const nextSalePrice = Math.max(0, Number(model.salePrice) || 0);
+      const oldSalePrice = Math.max(0, Number(nr.bom[mid].salePrice) || 0);
+      if (oldSalePrice !== nextSalePrice) pricingChanged++;
+      nr.bom[mid].salePrice = nextSalePrice;
+      nr.bom[mid].parts = nr.bom[mid].parts || {};
+      nr.bom[mid].fixed = nr.bom[mid].fixed || {};
+      nr.bom[mid].lot = nr.bom[mid].lot || {};
+      for (const [pid, per] of Object.entries(model.bom || {})) {
+        if (!db.parts[pid]) continue;
+        const mode = this.partMode(db.parts[pid]), lotOwner = lotOwners[pid];
+        const nextNeed = mode === "unit"
+          ? Math.ceil((Number(per) || 0) * (Number(units) || 0) * spare)
+          : mode === "model" || lotOwner === mid ? Math.ceil(Number(per) || 0) : 0;
+        if (mode === "lot" && lotOwner !== mid) {
+          const sourceBuys = (nr.buys[mid] || {})[pid] || [];
+          if (sourceBuys.length) {
+            nr.buys[lotOwner] = nr.buys[lotOwner] || {};
+            nr.buys[lotOwner][pid] = ((nr.buys[lotOwner] || {})[pid] || []).concat(sourceBuys);
+            delete nr.buys[mid][pid];
+          }
+        }
+        const hadPart = Object.prototype.hasOwnProperty.call(nr.needM[mid], pid);
+        const oldNeed = Number(nr.needM[mid][pid]) || 0;
+        if (!hadPart && nextNeed > 0) added++;
+        else if (oldNeed !== nextNeed) changed++;
+        nr.bom[mid].parts[pid] = Number(per) || 0;
+        if (mode !== "unit") nr.bom[mid].fixed[pid] = true;
+        else delete nr.bom[mid].fixed[pid];
+        if (mode === "lot") nr.bom[mid].lot[pid] = true;
+        else delete nr.bom[mid].lot[pid];
+        nr.needM[mid][pid] = nextNeed;
+        nr.names[pid] = db.parts[pid].name;
+
+        let reserved = Math.max(0, Number(nr.stockUsed[mid][pid]) || 0);
+        if (mode === "lot" && lotOwner !== mid && reserved > 0) {
+          const ownerNeed = Math.ceil(Number(((db.models[lotOwner] || {}).bom || {})[pid]) || 0);
+          const ownerReserved = Math.max(0, Number(((nr.stockUsed[lotOwner] || {})[pid])) || 0);
+          const move = Math.min(reserved, Math.max(0, ownerNeed - ownerReserved));
+          if (move > 0) {
+            nr.stockUsed[lotOwner][pid] = ownerReserved + move;
+            reserved -= move;
+            nr.stockUsed[mid][pid] = reserved;
+          }
+        }
+        if (reserved > nextNeed) {
+          inv[pid] = (Number(inv[pid]) || 0) + (reserved - nextNeed);
+          reserved = nextNeed;
+          nr.stockUsed[mid][pid] = reserved;
+        }
+        const delta = Math.max(0, nextNeed - oldNeed);
+        const available = Math.max(0, Math.floor(Number(inv[pid]) || 0));
+        const take = Math.min(delta, available);
+        if (take > 0) {
+          nr.stockUsed[mid][pid] = reserved + take;
+          stockAdded += take;
+          if (available > take) inv[pid] = available - take;
+          else delete inv[pid];
+        }
+      }
+    }
+    return { run: nr, inventory: inv, added, changed, stockAdded, pricingChanged };
+  }
+
+  distribuir(pid, qtd, s) {
+    const { run } = this.state;
+    const mids = Object.keys(run.order).filter(m => (run.needM[m] || {})[pid]);
+    const out = {};
+    mids.forEach(m => out[m] = 0);
+    if (!mids.length || qtd <= 0) return out;
+    const falta = {};
+    mids.forEach(m => falta[m] = Math.max(0, run.needM[m][pid] - (s.M[m].bought[pid] || 0)));
+    let resto = qtd, elig = mids.filter(m => falta[m] > 0);
+    while (resto > 0 && elig.length) {
+      const cota = Math.max(1, Math.floor(resto / elig.length));
+      for (const m of elig) {
+        if (resto <= 0) break;
+        const dar = Math.min(cota, falta[m], resto);
+        out[m] += dar; falta[m] -= dar; resto -= dar;
+      }
+      elig = elig.filter(m => falta[m] > 0);
+    }
+    for (let i = 0; resto > 0; i++, resto--) out[mids[i % mids.length]]++;
+    return out;
+  }
+
+  pecasDoLote() {
+    const { run } = this.state;
+    if (!run) return [];
+    const set = {};
+    for (const need of Object.values(run.needM)) for (const [pid, q] of Object.entries(need)) if ((Number(q) || 0) > 0) set[pid] = 1;
+    return Object.keys(set).sort((a, b) => this.nomeRun(a).localeCompare(this.nomeRun(b), "pt-BR"));
+  }
+
+  addBuy(run, mid, pid, q, v, txId, at) {
+    run.buys[mid] = run.buys[mid] || {};
+    const entry = { id: txId || this.uid("buy"), q, v, at: at || new Date().toISOString() };
+    (run.buys[mid][pid] = run.buys[mid][pid] || []).push(entry);
+    return entry.id;
+  }
+
+  recentBuyGroups(run) {
+    const groups = {};
+    for (const [mid, byPart] of Object.entries(run.buys || {})) {
+      for (const [pid, entries] of Object.entries(byPart || {})) {
+        (entries || []).forEach((entry, index) => {
+          const legacyTime = entry.at ? String(entry.at).slice(0, 19) : mid + ":" + index;
+          const key = entry.id ? "tx:" + entry.id : "legacy:" + pid + ":" + legacyTime;
+          const g = groups[key] = groups[key] || {
+            key,
+            id: entry.id || "",
+            pid,
+            at: entry.at || run.at,
+            q: 0,
+            v: 0,
+            allocations: []
+          };
+          g.q += Number(entry.q) || 0;
+          g.v += Number(entry.v) || 0;
+          if (new Date(entry.at || 0).getTime() > new Date(g.at || 0).getTime()) g.at = entry.at;
+          g.allocations.push({ mid, pid, index });
+        });
+      }
+    }
+    return Object.values(groups).sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime());
+  }
+
+  removeBuyGroup(run, group) {
+    const nr = JSON.parse(JSON.stringify(run));
+    if (group.id) {
+      for (const byPart of Object.values(nr.buys || {})) {
+        for (const pid of Object.keys(byPart || {})) {
+          byPart[pid] = (byPart[pid] || []).filter(entry => entry.id !== group.id);
+          if (!byPart[pid].length) delete byPart[pid];
+        }
+      }
+    } else {
+      const byList = {};
+      for (const a of group.allocations) (byList[a.mid + "|" + a.pid] = byList[a.mid + "|" + a.pid] || []).push(a);
+      for (const listAllocs of Object.values(byList)) {
+        const a = listAllocs[0];
+        const list = (((nr.buys || {})[a.mid] || {})[a.pid] || []);
+        for (const item of listAllocs.sort((x, y) => y.index - x.index)) list.splice(item.index, 1);
+        if (!list.length && nr.buys[a.mid]) delete nr.buys[a.mid][a.pid];
+      }
+    }
+    return nr;
+  }
+
+  download(name, content, type) {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([content], { type }));
+    a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  renderVals() {
+    const st = this.state, db = st.db, tab = st.tab;
+    const B = n => this.brl(n);
+    const P = (profit, cost) => {
+      if (!(cost > 0)) return "— %";
+      const pct = profit / cost * 100;
+      return (pct > 0 ? "+" : "") + pct.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + "%";
+    };
+    const tabBg = t => tab === t ? "#22262d" : "transparent";
+    const tabFg = t => tab === t ? "#eceff4" : "#8a94a2";
+    const V = {
+      goRun: () => this.setState({ tab: "run" }),
+      goCalc: () => this.setState({ tab: "calc" }),
+      goHistory: () => this.setState({ tab: "history" }),
+      goBom: () => this.setState({ tab: "bom" }),
+      doPrint: () => window.print(),
+      tabRunBg: tabBg("run"), tabRunFg: tabFg("run"),
+      tabCalcBg: tabBg("calc"), tabCalcFg: tabFg("calc"),
+      tabHistoryBg: tabBg("history"), tabHistoryFg: tabFg("history"),
+      tabBomBg: tabBg("bom"), tabBomFg: tabFg("bom"),
+      isRun: tab === "run" && !!st.run,
+      isRunEmpty: tab === "run" && !st.run,
+      isCalc: tab === "calc",
+      isHistory: tab === "history",
+      isBom: tab === "bom",
+      showPrice: !!st.opts.showPrice,
+      spare: st.opts.spare,
+      toast: st.toast, hasToast: !!st.toast,
+      fileRef: this.fileRef
+    };
+
+    // ---------- modal ----------
+    const md = st.modal;
+    V.modalOpen = !!md;
+    V.closeModal = () => this.setState({ modal: null });
+    V.isBuyModal = !!md && md.mode === "buy";
+    V.isLinkModal = !!md && md.mode === "link";
+    V.isConfirmModal = !!md && md.mode === "confirm";
+    V.modalTitle = md ? (md.mode === "buy" ? "Registrar compra" : md.mode === "link" ? "Link de compra" : md.title) : "";
+    V.openBuy = () => {
+      if (!st.run) { this.setState({ tab: "calc" }); this.say("Comece um lote na calculadora primeiro."); return; }
+      const list = this.pecasDoLote();
+      this.setState({ tab: "run", modal: { mode: "buy", pid: list[0] || "", qty: "", val: "" } });
+    };
+    const openLink = pid => this.setState({ modal: { mode: "link", pid, url: (db.parts[pid] || {}).url || "" } });
+
+    if (V.isBuyModal) {
+      const s = this.runStats();
+      V.modalPid = md.pid; V.modalQty = md.qty; V.modalVal = md.val;
+      V.modalParts = this.pecasDoLote().map(pid => {
+        let falta = 0, garantido = 0;
+        for (const mid of Object.keys(st.run.order)) {
+          falta += Math.max(0, ((st.run.needM[mid] || {})[pid] || 0) - (s.M[mid].bought[pid] || 0));
+          garantido += Number(s.M[mid].bought[pid]) || 0;
+        }
+        const complete = falta <= 0;
+        const noBuy = !complete && garantido <= 0;
+        const color = complete ? "#58d66b" : noBuy ? "#ff6b6b" : "#f3c64d";
+        const status = complete ? "completo" : noBuy ? "sem compra · faltam " + falta : "faltam " + falta;
+        return { id: pid, color, label: this.nomeRun(pid) + " — " + status };
+      });
+      const selectedPart = V.modalParts.find(p => p.id === md.pid);
+      V.modalSelectColor = selectedPart ? selectedPart.color : "#eceff4";
+      V.setModalPid = e => this.setState({ modal: Object.assign({}, md, { pid: e.target.value }) });
+      V.setModalQty = e => this.setState({ modal: Object.assign({}, md, { qty: e.target.value }) });
+      V.setModalVal = e => this.setState({ modal: Object.assign({}, md, { val: e.target.value }) });
+      const qn = Math.floor(Number(md.qty) || 0), vn = Math.max(0, Number(md.val) || 0);
+      const d = (md.pid && qn > 0) ? this.distribuir(md.pid, qn, s) : {};
+      const rows = Object.entries(d).filter(([, x]) => x > 0).map(([m, x]) => ({ name: (st.run.bom[m] || {}).name || m, q: x }));
+      V.splitRows = rows;
+      V.splitText = rows.length ? "Essa compra entra assim nos modelos do lote:" : "Diga a peça e a quantidade que eu mostro como fica dividido entre os modelos.";
+      V.modalUnit = qn > 0 && vn > 0;
+      V.modalUnitStr = qn > 0 ? B(vn / qn) : "";
+      V.confirmBuy = () => {
+        if (!md.pid || qn <= 0) { this.say("Informe a quantidade."); return; }
+        const run = JSON.parse(JSON.stringify(st.run));
+        const txId = this.uid("buy"), at = new Date().toISOString();
+        for (const [mid, x] of Object.entries(d)) if (x > 0) this.addBuy(run, mid, md.pid, x, vn * x / qn, txId, at);
+        this.commit({ run, modal: null });
+        this.say(qn + " × " + this.nomeRun(md.pid) + " registrado.");
+      };
+    }
+    if (V.isLinkModal) {
+      V.modalUrl = md.url;
+      V.linkPartName = (db.parts[md.pid] || {}).name || "";
+      V.setModalUrl = e => this.setState({ modal: Object.assign({}, md, { url: e.target.value }) });
+      V.confirmLink = () => {
+        const u = this.safeUrl(md.url);
+        if (String(md.url).trim() && !u) { this.say("Link inválido — use um endereço http:// ou https://"); return; }
+        const nd = JSON.parse(JSON.stringify(db));
+        nd.parts[md.pid].url = u;
+        if (u) nd.parts[md.pid].nolink = false;
+        this.commit({ db: nd, modal: null });
+        this.say(u ? "Link salvo." : "Link removido.");
+      };
+    }
+    if (V.isConfirmModal) {
+      V.confirmText = md.text; V.confirmLabel = md.label || "Confirmar";
+      V.confirmAction = () => { md.run(); };
+    }
+
+    // ---------- painel do lote ----------
+    if (V.isRun) {
+      const run = st.run, s = this.runStats();
+      const pedido = Object.entries(run.order).map(([mid, n]) => ((run.bom[mid] || {}).name || mid) + " × " + n).join(" · ");
+      const dias = Math.max(0, Math.round((Date.now() - new Date(run.at).getTime()) / 86400000));
+      V.runTitle = "Lote em andamento";
+      V.runSub = pedido + " · começou em " + new Date(run.at).toLocaleDateString("pt-BR") + (run.spare ? " · " + run.spare + "% de sobra" : "") + (s.tot.stockT ? " · " + s.tot.stockT + " do estoque" : "");
+      V.pctStr = String(Math.round(s.tot.pct * 100));
+      V.barW = (s.tot.pct * 100).toFixed(1) + "%";
+      V.gotT = s.tot.gotT; V.needT = s.tot.needT;
+      V.faltamT = s.tot.needT - s.tot.gotT;
+      V.spentStr = B(s.tot.spentT);
+      V.buyCount = this.recentBuyGroups(run).length;
+      V.daysStr = dias === 0 ? "hoje" : "em " + dias + (dias === 1 ? " dia" : " dias");
+      let totalRevenue = 0, allModelsPriced = true;
+      for (const [mid, units] of Object.entries(run.order)) {
+        const info = run.bom[mid] || {};
+        const salePrice = Math.max(0, Number(info.salePrice != null ? info.salePrice : ((db.models[mid] || {}).salePrice)) || 0);
+        if (!salePrice) allModelsPriced = false;
+        totalRevenue += salePrice * units;
+      }
+      const totalProfit = totalRevenue - s.tot.spentT;
+      V.profitStr = allModelsPriced ? B(totalProfit) : "—";
+      V.profitPctStr = allModelsPriced ? P(totalProfit, s.tot.spentT) : "";
+      V.profitColor = !allModelsPriced ? "#6f7887" : totalProfit >= 0 ? "#58d66b" : "#ff6b6b";
+      V.profitHint = allModelsPriced
+        ? "receita " + B(totalRevenue) + " − gasto registrado" + (s.tot.spentT > 0 ? " · percentual sobre o custo" : " · registre custos para calcular o percentual")
+        : "defina a venda de todos os modelos";
+
+      const allPids = this.pecasDoLote();
+      let done = 0;
+      const faltaGlobal = {};
+      for (const pid of allPids) {
+        let f = 0;
+        for (const mid of Object.keys(run.order)) f += Math.max(0, ((run.needM[mid] || {})[pid] || 0) - (s.M[mid].bought[pid] || 0));
+        faltaGlobal[pid] = f;
+        if (!f) done++;
+      }
+      V.doneParts = done; V.totParts = allPids.length;
+
+      V.runModels = Object.entries(run.order).map(([mid, n]) => {
+        const info = run.bom[mid] || { name: mid, parts: {} };
+        const m = s.M[mid], need = run.needM[mid] || {};
+        const salePrice = Math.max(0, Number(info.salePrice != null ? info.salePrice : ((db.models[mid] || {}).salePrice)) || 0);
+        const revenue = salePrice * n, profit = revenue - m.spentT;
+        const pids = Object.keys(need).filter(pid => (Number(need[pid]) || 0) > 0).sort((a, b) => this.nomeRun(a).localeCompare(this.nomeRun(b), "pt-BR"));
+        const missing = pids.filter(p => need[p] - (m.bought[p] || 0) > 0)
+          .sort((a, b) => (need[b] - m.bought[b]) - (need[a] - m.bought[a])).slice(0, 3)
+          .map(p => ({ name: this.nomeRun(p), falta: need[p] - (m.bought[p] || 0), color: "#ffb02e", barW: Math.min(100, (m.bought[p] || 0) / need[p] * 100).toFixed(0) + "%" }));
+        const open = !!st.open[mid];
+        return {
+          name: info.name, img: info.img || this.imgOf(db.models[mid]), qty: n, nParts: m.nParts,
+          pctStr: String(Math.round(m.pct * 100)),
+          ringColor: m.pct >= 1 ? "#56d364" : m.pct >= 0.66 ? "#56d364" : "#ffb02e",
+          ringOffset: (100.5 * (1 - m.pct)).toFixed(1),
+          unitStr: m.comPreco ? B(m.unit) : "—",
+          saleStr: salePrice ? B(salePrice) : "—",
+          spentStr: B(m.spentT),
+          profitStr: salePrice ? B(profit) : "—",
+          profitPctStr: salePrice ? P(profit, m.spentT) : "",
+          profitColor: !salePrice ? "#6f7887" : profit >= 0 ? "#58d66b" : "#ff6b6b",
+          revenueHint: salePrice ? "receita " + B(revenue) + (m.spentT > 0 ? " · % sobre custo" : " · aguardando custos") : "defina no cadastro",
+          missLabel: missing.length ? "O que mais falta" : "Nada faltando neste modelo",
+          missing,
+          open, toggle: () => this.setState({ open: Object.assign({}, st.open, { [mid]: !open }) }),
+          toggleLabel: open ? "Esconder as " + m.nParts + " peças" : "Ver as " + m.nParts + " peças",
+          rows: pids.map(pid => {
+            const falta = Math.max(0, need[pid] - (m.bought[pid] || 0));
+            const key = mid + "|" + pid;
+            return {
+              name: this.nomeRun(pid), need: need[pid], bought: m.bought[pid] || 0,
+              faltaStr: falta ? String(falta) : "✓",
+              faltaColor: falta ? "#ffb02e" : "#56d364",
+              opacity: falta ? "1" : "0.5",
+              spentStr: m.spent[pid] ? B(m.spent[pid]) : "—",
+              unitStr: m.purchased[pid] ? B(m.avg[pid]) : "—",
+              qVal: st.qty[key] || "",
+              onQ: e => this.setState({ qty: Object.assign({}, st.qty, { [key]: e.target.value }) }),
+              onAdd: () => {
+                const qn = Math.floor(Number(st.qty[key]) || 0);
+                if (qn <= 0) { this.say("Digite a quantidade antes."); return; }
+                const nr = JSON.parse(JSON.stringify(run));
+                this.addBuy(nr, mid, pid, qn, 0);
+                this.commit({ run: nr, qty: Object.assign({}, st.qty, { [key]: "" }) });
+                this.say(qn + " × " + this.nomeRun(pid) + " em " + info.name + ".");
+              },
+              canUndo: ((run.buys[mid] || {})[pid] || []).length > 0,
+              onUndo: () => {
+                const nr = JSON.parse(JSON.stringify(run));
+                nr.buys[mid][pid].pop();
+                if (!nr.buys[mid][pid].length) delete nr.buys[mid][pid];
+                this.commit({ run: nr });
+                this.say("Último registro desfeito.");
+              }
+            };
+          })
+        };
+      });
+
+      const pend = allPids.filter(p => faltaGlobal[p] > 0).sort((a, b) => faltaGlobal[b] - faltaGlobal[a]);
+      V.allDone = pend.length === 0;
+      V.buyNowSub = pend.length ? "somando os dois modelos, em ordem de urgência" : "";
+      V.buyNow = pend.map((pid, i) => {
+        const p = db.parts[pid] || {};
+        const url = this.safeUrl(p.url);
+        return {
+          name: this.nomeRun(pid), falta: faltaGlobal[pid],
+          sub: (p.cat || "") + (p.variant ? " · " + p.variant : ""),
+          rowBg: i % 2 === 0 ? "#181c22" : "transparent",
+          hasUrl: !!url, noUrl: !url, url, host: url ? this.host(url) : "",
+          editLink: () => openLink(pid),
+          registrar: () => this.setState({ tab: "run", modal: { mode: "buy", pid, qty: String(faltaGlobal[pid]), val: "" } })
+        };
+      });
+
+      const recentGroups = this.recentBuyGroups(run);
+      V.recentEmpty = recentGroups.length === 0;
+      V.recentBuySub = recentGroups.length > 8 ? "mostrando as 8 mais recentes de " + recentGroups.length : recentGroups.length + (recentGroups.length === 1 ? " compra registrada" : " compras registradas");
+      V.recentBuys = recentGroups.slice(0, 8).map(g => {
+        const name = this.nomeRun(g.pid);
+        const models = Array.from(new Set(g.allocations.map(a => ((run.bom[a.mid] || {}).name || a.mid)))).join(" · ");
+        return {
+          name,
+          qty: g.q,
+          value: g.v > 0 ? B(g.v) : "valor não informado",
+          at: new Date(g.at).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }),
+          models,
+          askRemove: () => this.setState({
+            modal: {
+              mode: "confirm",
+              title: "Remover compra?",
+              label: "Remover",
+              text: "Remover " + g.q + " × " + name + "? O progresso e o gasto do lote serão recalculados.",
+              run: () => {
+                const nr = this.removeBuyGroup(run, g);
+                this.commit({ run: nr, modal: null });
+                this.say("Compra removida.");
+              }
+            }
+          })
+        };
+      });
+
+      V.syncRun = () => {
+        const synced = this.syncRunWithDb(run, db, st.inventory);
+        if (!synced.added && !synced.changed && !synced.pricingChanged) {
+          this.say("O lote já está atualizado com o cadastro atual.");
+          return;
+        }
+        this.commit({ run: synced.run, inventory: synced.inventory });
+        const details = [];
+        if (synced.added) details.push(synced.added + (synced.added === 1 ? " peça incluída" : " peças incluídas"));
+        if (synced.changed) details.push(synced.changed + (synced.changed === 1 ? " quantidade atualizada" : " quantidades atualizadas"));
+        if (synced.pricingChanged) details.push(synced.pricingChanged + (synced.pricingChanged === 1 ? " valor de venda atualizado" : " valores de venda atualizados"));
+        if (synced.stockAdded) details.push(synced.stockAdded + " aproveitadas do estoque");
+        this.say("Lote atualizado: " + details.join(" · ") + ".");
+      };
+
+      V.runCsv = () => {
+        const qq = x => '"' + String(x).replace(/"/g, '""') + '"', n2 = x => x.toFixed(2).replace(".", ",");
+        const L = [["Lote iniciado em", new Date(run.at).toLocaleString("pt-BR")].map(qq).join(";"),
+        ["Pedido", pedido].map(qq).join(";"), "",
+        ["Modelo", "Peca", "Precisa", "Estoque", "Comprado", "Garantido", "Falta", "Gasto", "Preco medio"].map(qq).join(";")];
+        for (const [mid, n] of Object.entries(run.order)) {
+          const info = run.bom[mid] || { name: mid }, m = s.M[mid], need = run.needM[mid] || {};
+          for (const pid of Object.keys(need).filter(pid => (Number(need[pid]) || 0) > 0).sort((a, b) => this.nomeRun(a).localeCompare(this.nomeRun(b), "pt-BR"))) {
+            const stock = Number(((run.stockUsed || {})[mid] || {})[pid]) || 0;
+            L.push([info.name, this.nomeRun(pid), need[pid], stock, m.purchased[pid], m.bought[pid], Math.max(0, need[pid] - m.bought[pid]), n2(m.spent[pid]), m.purchased[pid] ? n2(m.avg[pid]) : ""].map(qq).join(";"));
+          }
+          L.push([info.name, "SUBTOTAL", m.needT, "", "", m.gotT, m.needT - m.gotT, n2(m.spentT), ""].map(qq).join(";"));
+        }
+        L.push(["TOTAL", "", s.tot.needT, s.tot.stockT, "", s.tot.gotT, s.tot.needT - s.tot.gotT, n2(s.tot.spentT), ""].map(qq).join(";"), "");
+        L.push(["Modelo", "Unidades", "Custo por unidade", "Custo do lote", "Venda por unidade", "Receita", "Lucro atual", "Lucro sobre custo (%)"].map(qq).join(";"));
+        for (const [mid, n] of Object.entries(run.order)) {
+          const info = run.bom[mid] || {}, salePrice = Math.max(0, Number(info.salePrice != null ? info.salePrice : ((db.models[mid] || {}).salePrice)) || 0);
+          const revenue = salePrice * n, profit = revenue - s.M[mid].spentT;
+          const profitPct = salePrice && s.M[mid].spentT > 0 ? profit / s.M[mid].spentT * 100 : null;
+          L.push([info.name || mid, n, n2(s.M[mid].unit), n2(s.M[mid].unit * n), salePrice ? n2(salePrice) : "", salePrice ? n2(revenue) : "", salePrice ? n2(profit) : "", profitPct == null ? "" : n2(profitPct)].map(qq).join(";"));
+        }
+        this.download("bfmidi-lote.csv", "\ufeff" + L.join("\r\n"), "text/csv;charset=utf-8");
+      };
+      V.askEndRun = () => this.setState({
+        modal: {
+          mode: "confirm", title: "Encerrar o lote?", label: "Encerrar",
+          text: "O lote será guardado no histórico e qualquer quantidade excedente entrará no estoque.",
+          run: () => {
+            const closed = this.closeRunData(run, st.inventory, st.history, "encerrado");
+            this.commit({ inventory: closed.inventory, history: closed.history, run: null, modal: null, tab: "history" });
+            this.say("Lote encerrado e salvo no histórico.");
+          }
+        }
+      });
+    }
+
+    // ---------- histórico e estoque ----------
+    if (V.isHistory) {
+      const inventory = st.inventory || {}, history = st.history || [];
+      const stockPids = Object.keys(db.parts).sort((a, b) => db.parts[a].name.localeCompare(db.parts[b].name, "pt-BR"));
+      V.stockUnits = stockPids.reduce((sum, pid) => sum + Math.max(0, Math.floor(Number(inventory[pid]) || 0)), 0);
+      V.stockTypes = stockPids.filter(pid => (Number(inventory[pid]) || 0) > 0).length;
+      V.stockValue = B(stockPids.reduce((sum, pid) => sum + (Math.max(0, Number(inventory[pid]) || 0) * (Number(db.parts[pid].price) || 0)), 0));
+      V.historyCount = history.length;
+      V.stockRows = stockPids.map(pid => {
+        const p = db.parts[pid];
+        const qty = Math.max(0, Math.floor(Number(inventory[pid]) || 0));
+        const status = qty === 0 ? "zerado" : qty <= 3 ? "estoque baixo" : "disponível";
+        const statusColor = qty === 0 ? "#ff6b6b" : qty <= 3 ? "#f3c64d" : "#58d66b";
+        return {
+          name: p.name,
+          cat: p.cat || "Outros",
+          qty, status, statusColor,
+          setQty: e => {
+            const inv = Object.assign({}, inventory);
+            const q = Math.max(0, Math.floor(Number(e.target.value) || 0));
+            if (q > 0) inv[pid] = q;
+            else delete inv[pid];
+            this.commit({ inventory: inv });
+          }
+        };
+      });
+      V.historyEmpty = history.length === 0;
+      V.historyRows = history.map(h => {
+        const r = h.run, s = this.runStats(r);
+        const order = Object.entries(r.order || {}).map(([mid, n]) => ((r.bom[mid] || {}).name || mid) + " × " + n).join(" · ");
+        const pct = Math.round((s.tot.pct || 0) * 100);
+        const surplus = Object.values(h.surplus || {}).reduce((sum, q) => sum + (Number(q) || 0), 0);
+        return {
+          order: order || "Lote sem modelos",
+          started: new Date(r.at).toLocaleDateString("pt-BR"),
+          closed: new Date(h.closedAt).toLocaleDateString("pt-BR"),
+          pct,
+          color: pct >= 100 ? "#56d364" : "#ffb02e",
+          got: s.tot.gotT,
+          need: s.tot.needT,
+          spent: B(s.tot.spentT),
+          surplus,
+          duplicate: () => {
+            this.commit({ order: JSON.parse(JSON.stringify(r.order || {})), tab: "calc" });
+            this.say("Lote copiado para a calculadora.");
+          }
+        };
+      });
+    }
+
+    // ---------- calculadora ----------
+    if (V.isCalc) {
+      const totals = this.compute();
+      const ids = Object.keys(totals);
+      V.calcModels = Object.entries(db.models).map(([mid, m]) => {
+        const n = Number(st.order[mid]) || 0, np = Object.keys(m.bom).length;
+        const set = d => {
+          const o = Object.assign({}, st.order); o[mid] = Math.max(0, d); this.commit({ order: o });
+        };
+        return {
+          name: m.name, img: this.imgOf(m), qty: n,
+          partsLabel: np ? np + " peças na lista" : "sem peças cadastradas",
+          inc: () => set(n + 1), dec: () => set(n - 1),
+          set: e => set(Math.floor(Number(e.target.value) || 0))
+        };
+      });
+      V.setSpare = e => this.commit({ opts: Object.assign({}, st.opts, { spare: Math.max(0, Math.min(100, Number(e.target.value) || 0)) }) });
+      V.togglePrice = () => this.commit({ opts: Object.assign({}, st.opts, { showPrice: !st.opts.showPrice }) });
+      V.priceTrack = st.opts.showPrice ? "#ffb02e" : "#2c313a";
+      V.priceKnob = st.opts.showPrice ? "23px" : "3px";
+      V.clearOrder = () => { this.commit({ order: {} }); this.say("Quantidades zeradas."); };
+
+      const semBom = Object.entries(db.models).filter(([mid, m]) => (Number(st.order[mid]) || 0) > 0 && !Object.keys(m.bom).length).map(([, m]) => m.name);
+      V.hasWarn = semBom.length > 0; V.warnNames = semBom.join(", ");
+      V.emptyResult = ids.length === 0; V.hasResult = ids.length > 0;
+      const hasStock = Object.values(st.inventory || {}).some(q => (Number(q) || 0) > 0);
+      V.listSub = (st.opts.spare > 0 ? "já com " + st.opts.spare + "% de sobra" : "quantidade exata") + (hasStock ? " · estoque descontado" : "");
+
+      const byCat = {};
+      let custo = 0, unidades = 0;
+      for (const pid of ids) { const c = db.parts[pid].cat || "Outros"; (byCat[c] = byCat[c] || []).push(pid); }
+      V.resultCats = Object.keys(byCat).sort().map(cat => ({
+        cat,
+        rows: byCat[cat].sort((a, b) => db.parts[a].name.localeCompare(db.parts[b].name, "pt-BR")).map(pid => {
+          const p = db.parts[pid], t = totals[pid];
+          const stock = Math.min(t.final, Math.max(0, Math.floor(Number((st.inventory || {})[pid]) || 0)));
+          const buyQty = Math.max(0, t.final - stock);
+          const sub = buyQty * (Number(p.price) || 0);
+          custo += sub; unidades += buyQty;
+          const url = this.safeUrl(p.url);
+          return {
+            name: p.name, sub: (p.variant ? p.variant + " · " : "") + "base " + t.base + (stock ? " · estoque " + stock : ""),
+            final: buyQty, price: Number(p.price) || 0, subtotal: B(sub),
+            setPrice: e => {
+              const nd = JSON.parse(JSON.stringify(db));
+              nd.parts[pid].price = Math.max(0, Number(e.target.value) || 0);
+              this.commit({ db: nd });
+            },
+            hasUrl: !!url, url, host: url ? this.host(url) : "",
+            linkLabel: url ? "✎" : "+ link",
+            editLink: () => openLink(pid)
+          };
+        })
+      }));
+      V.totalCost = B(custo); V.totalUnits = unidades;
+
+      V.breakdown = Object.entries(db.models).filter(([mid]) => (Number(st.order[mid]) || 0) > 0).map(([mid, m]) => {
+        const n = Number(st.order[mid]);
+        return {
+          name: m.name, img: this.imgOf(m), qty: n,
+          rows: Object.keys(m.bom)
+            .filter(pid => db.parts[pid] && Number((((totals[pid] || {}).byModelFinal || {})[mid]) || 0) > 0)
+            .sort((a, b) => db.parts[a].name.localeCompare(db.parts[b].name, "pt-BR"))
+            .map(pid => ({ name: db.parts[pid].name, per: m.bom[pid], total: Number(totals[pid].byModelFinal[mid]) || 0 }))
+        };
+      });
+
+      V.csv = () => {
+        if (!ids.length) { this.say("Nada para exportar ainda."); return; }
+        const q = s2 => '"' + String(s2).replace(/"/g, '""') + '"';
+        const pedido = Object.entries(db.models).filter(([id]) => st.order[id] > 0).map(([id, m]) => m.name + " x" + st.order[id]).join(" | ");
+        const lines = [["Pedido", pedido].map(q).join(";"), ["Sobra (%)", Number(st.opts.spare) || 0].map(q).join(";"), "",
+        ["Categoria", "Peca", "Opcao/variacao", "Base", "Estoque", "Comprar", "Preco unit.", "Subtotal", "Link de compra"].map(q).join(";")];
+        let tot = 0;
+        const sorted = ids.slice().sort((a, b) => (db.parts[a].cat || "").localeCompare(db.parts[b].cat || "", "pt-BR") || db.parts[a].name.localeCompare(db.parts[b].name, "pt-BR"));
+        for (const pid of sorted) {
+          const p = db.parts[pid], t = totals[pid];
+          const stock = Math.min(t.final, Math.max(0, Math.floor(Number((st.inventory || {})[pid]) || 0)));
+          const buyQty = Math.max(0, t.final - stock);
+          const sub = buyQty * (Number(p.price) || 0);
+          tot += sub;
+          lines.push([p.cat || "Outros", p.name, p.variant || "", t.base, stock, buyQty, (Number(p.price) || 0).toFixed(2).replace(".", ","), sub.toFixed(2).replace(".", ","), p.url || ""].map(q).join(";"));
+        }
+        lines.push(["", "", "", "", "", "", "TOTAL", tot.toFixed(2).replace(".", ","), ""].map(q).join(";"));
+        this.download("bfmidi-compras.csv", "\ufeff" + lines.join("\r\n"), "text/csv;charset=utf-8");
+      };
+
+      V.startRun = () => {
+        if (!ids.length) { this.say("Escolha a quantidade de pelo menos um modelo."); return; }
+        const build = () => {
+          let inventory = JSON.parse(JSON.stringify(st.inventory || {}));
+          let history = (st.history || []).slice();
+          if (st.run) {
+            const closed = this.closeRunData(st.run, inventory, history, "substituído");
+            inventory = closed.inventory;
+            history = closed.history;
+          }
+          const r = { at: new Date().toISOString(), spare: Number(st.opts.spare) || 0, order: {}, needM: {}, stockUsed: {}, names: {}, bom: {}, buys: {} };
+          for (const [mid, m] of Object.entries(db.models)) {
+            const n = Number(st.order[mid]) || 0;
+            if (n <= 0) continue;
+            r.order[mid] = n;
+            r.bom[mid] = { name: m.name, img: this.imgOf(m), salePrice: Math.max(0, Number(m.salePrice) || 0), parts: {}, fixed: {}, lot: {} };
+            r.needM[mid] = {}; r.stockUsed[mid] = {}; r.buys[mid] = {};
+            for (const [pid, q] of Object.entries(m.bom)) {
+              if (!db.parts[pid]) continue;
+              const needForModel = Number((((totals[pid] || {}).byModelFinal || {})[mid])) || 0;
+              if (needForModel <= 0) continue;
+              r.bom[mid].parts[pid] = q;
+              const mode = this.partMode(db.parts[pid]);
+              if (mode !== "unit") r.bom[mid].fixed[pid] = true;
+              if (mode === "lot") r.bom[mid].lot[pid] = true;
+              r.needM[mid][pid] = needForModel;
+              r.names[pid] = db.parts[pid].name;
+            }
+          }
+          const used = this.allocateStock(r, inventory);
+          this.commit({ run: r, inventory, history, tab: "run", modal: null, open: {} });
+          this.say(used ? "Lote iniciado com " + used + " peças aproveitadas do estoque." : "Lote iniciado. Bom garimpo!");
+        };
+        if (st.run) {
+          this.setState({
+            modal: {
+              mode: "confirm", title: "Começar outro lote?", label: "Começar outro",
+              text: "O lote atual será encerrado e guardado no histórico antes de iniciar o novo.", run: build
+            }
+          });
+        } else build();
+      };
+    }
+
+    // ---------- editor ----------
+    if (V.isBom) {
+      const setDb = fn => { const nd = JSON.parse(JSON.stringify(db)); fn(nd); this.commit({ db: nd }); };
+      V.editModels = Object.entries(db.models).map(([mid, m]) => ({
+        name: m.name, img: m.img || "", salePrice: Math.max(0, Number(m.salePrice) || 0),
+        setName: e => setDb(d => { d.models[mid].name = e.target.value.trim() || m.name; }),
+        setSalePrice: e => {
+          const nd = JSON.parse(JSON.stringify(db));
+          nd.models[mid].salePrice = Math.max(0, Number(e.target.value) || 0);
+          if (st.run && st.run.order[mid]) {
+            const synced = this.syncRunWithDb(st.run, nd, st.inventory);
+            this.commit({ db: nd, run: synced.run, inventory: synced.inventory });
+          } else this.commit({ db: nd });
+        },
+        setImg: e => setDb(d => { d.models[mid].img = e.target.value.trim(); }),
+        del: () => this.setState({
+          modal: {
+            mode: "confirm", title: "Excluir modelo?", label: "Excluir",
+            text: 'O modelo “' + m.name + '” sai da calculadora. As peças continuam no cadastro.',
+            run: () => {
+              const nd = JSON.parse(JSON.stringify(db)); delete nd.models[mid];
+              const o = Object.assign({}, st.order); delete o[mid];
+              this.commit({ db: nd, order: o, modal: null });
+            }
+          }
+        })
+      }));
+      V.newModel = st.newModel;
+      V.setNewModel = e => this.setState({ newModel: e.target.value });
+      V.addModel = () => {
+        const n = st.newModel.trim(); if (!n) return;
+        setDb(d => { d.models[this.uid("m")] = { name: n, salePrice: 0, bom: {} }; });
+        this.setState({ newModel: "" }); this.say("Modelo adicionado.");
+      };
+
+      const pids = Object.keys(db.parts).sort((a, b) => db.parts[a].name.localeCompare(db.parts[b].name, "pt-BR"));
+      V.editParts = pids.map(pid => {
+        const p = db.parts[pid];
+        return {
+          name: p.name, cat: p.cat || "", variant: p.variant || "", url: p.url || "", chargeMode: this.partMode(p),
+          setName: e => setDb(d => { d.parts[pid].name = e.target.value.trim() || p.name; }),
+          setCat: e => setDb(d => { d.parts[pid].cat = e.target.value.trim() || "Outros"; }),
+          setChargeMode: e => {
+            const nd = JSON.parse(JSON.stringify(db));
+            const mode = ["unit", "model", "lot"].includes(e.target.value) ? e.target.value : "unit";
+            nd.parts[pid].chargeMode = mode;
+            nd.parts[pid].perModel = mode === "model";
+            nd.parts[pid].perLot = mode === "lot";
+            if (st.run && Object.keys(st.run.order || {}).some(mid => ((nd.models[mid] || {}).bom || {})[pid])) {
+              const synced = this.syncRunWithDb(st.run, nd, st.inventory);
+              this.commit({ db: nd, run: synced.run, inventory: synced.inventory });
+              this.say(mode === "lot" ? "Cobrança ajustada para 1× por lote." : mode === "model" ? "Cobrança ajustada para 1× por modelo." : "Cobrança ajustada para quantidade por unidade.");
+            } else this.commit({ db: nd });
+          },
+          setVariant: e => setDb(d => { d.parts[pid].variant = e.target.value.trim(); }),
+          setUrl: e => {
+            const u = this.safeUrl(e.target.value);
+            if (e.target.value.trim() && !u) { this.say("Link inválido."); return; }
+            setDb(d => { d.parts[pid].url = u; if (u) d.parts[pid].nolink = false; });
+          },
+          del: () => {
+            const uso = Object.values(db.models).filter(m => m.bom[pid]).map(m => m.name);
+            this.setState({
+              modal: {
+                mode: "confirm", title: "Excluir peça?", label: "Excluir",
+                text: uso.length ? 'A peça “' + p.name + '” é usada em: ' + uso.join(", ") + ". Excluir mesmo assim?" : 'Excluir a peça “' + p.name + '”?',
+                run: () => {
+                  const nd = JSON.parse(JSON.stringify(db));
+                  delete nd.parts[pid];
+                  for (const m of Object.values(nd.models)) delete m.bom[pid];
+                  this.commit({ db: nd, modal: null });
+                }
+              }
+            });
+          }
+        };
+      });
+      V.newPart = st.newPart; V.newCat = st.newCat;
+      V.setNewPart = e => this.setState({ newPart: e.target.value });
+      V.setNewCat = e => this.setState({ newCat: e.target.value });
+      V.addPart = () => {
+        const n = st.newPart.trim(); if (!n) return;
+        const nd = JSON.parse(JSON.stringify(db));
+        const pid = this.uid("p"), fixedPerModel = /frete.*dhl.*imposto/i.test(n);
+        nd.parts[pid] = { name: n, cat: st.newCat.trim() || "Outros", price: 0, chargeMode: fixedPerModel ? "model" : "unit", perModel: fixedPerModel, perLot: false, fixedModelsInitialized: fixedPerModel };
+        if (fixedPerModel) for (const model of Object.values(nd.models)) model.bom[pid] = 1;
+        if (fixedPerModel && st.run) {
+          const synced = this.syncRunWithDb(st.run, nd, st.inventory);
+          this.commit({ db: nd, run: synced.run, inventory: synced.inventory, newPart: "", newCat: "" });
+          this.say("Frete DHL e Imposto incluído 1× em cada modelo e no lote atual.");
+        } else {
+          this.commit({ db: nd, newPart: "", newCat: "" });
+          this.say("Peça adicionada. Agora inclua em um modelo e informe a quantidade.");
+        }
+      };
+
+      const mids = Object.keys(db.models);
+      const cur = db.models[st.bomModel] ? st.bomModel : (mids[0] || "");
+      V.bomModel = cur;
+      V.modelOptions = mids.map(id => ({ id, name: db.models[id].name }));
+      V.setBomModel = e => this.setState({ bomModel: e.target.value, addPartSel: "" });
+      const m = db.models[cur];
+      const bomPids = m ? Object.keys(m.bom).filter(p => db.parts[p]).sort((a, b) => db.parts[a].name.localeCompare(db.parts[b].name, "pt-BR")) : [];
+      V.bomEmpty = !m || bomPids.length === 0;
+      V.bomRows = bomPids.map(pid => ({
+        name: db.parts[pid].name, qty: m.bom[pid],
+        basisLabel: this.partMode(db.parts[pid]) === "lot" ? "por lote" : this.partMode(db.parts[pid]) === "model" ? "por modelo" : "por un.",
+        basisColor: this.partMode(db.parts[pid]) === "unit" ? "#6f7887" : "#ffb02e",
+        setQty: e => setDb(d => { d.models[cur].bom[pid] = Math.max(1, Math.floor(Number(e.target.value) || 1)); }),
+        del: () => setDb(d => { delete d.models[cur].bom[pid]; })
+      }));
+      const avail = m ? Object.keys(db.parts).filter(p => !(p in m.bom)).sort((a, b) => db.parts[a].name.localeCompare(db.parts[b].name, "pt-BR")) : [];
+      V.addPartOptions = avail.length ? avail.map(id => ({ id, name: db.parts[id].name })) : [{ id: "", name: "(todas as peças já estão no modelo)" }];
+      V.addPartSel = avail.includes(st.addPartSel) ? st.addPartSel : (avail[0] || "");
+      V.setAddPartSel = e => this.setState({ addPartSel: e.target.value });
+      V.addPartQty = st.addPartQty;
+      V.setAddPartQty = e => this.setState({ addPartQty: Math.max(1, Math.floor(Number(e.target.value) || 1)) });
+      V.addToBom = () => {
+        const pid = V.addPartSel;
+        if (!m || !pid) return;
+        const nd = JSON.parse(JSON.stringify(db));
+        nd.models[cur].bom[pid] = Math.max(1, Math.floor(Number(st.addPartQty) || 1));
+        if (st.run && st.run.order[cur]) {
+          const synced = this.syncRunWithDb(st.run, nd, st.inventory);
+          this.commit({ db: nd, run: synced.run, inventory: synced.inventory });
+          this.say("Peça incluída no modelo e no lote atual.");
+        } else {
+          this.commit({ db: nd });
+          this.say("Peça incluída no modelo.");
+        }
+      };
+
+      V.backup = () => this.download("bfmidi-backup.json", JSON.stringify({ db, order: st.order, opts: st.opts, run: st.run, inventory: st.inventory, history: st.history }, null, 2), "application/json");
+      V.restore = () => { if (this.fileRef.current) this.fileRef.current.click(); };
+      V.onFile = e => {
+        const f = e.target.files && e.target.files[0];
+        if (!f) return;
+        const r = new FileReader();
+        r.onload = () => {
+          try {
+            const d = JSON.parse(r.result);
+            if (!d.db || !d.db.parts || !d.db.models) throw new Error("formato inválido");
+            const restoredDb = this.migrate(d.db);
+            let run = this.migrateRun(d.run || null, restoredDb);
+            let inventory = d.inventory || {};
+            if (run) {
+              const synced = this.syncRunWithDb(run, restoredDb, inventory);
+              run = synced.run;
+              inventory = synced.inventory;
+            }
+            const history = (d.history || []).filter(h => h && h.run).map(h => Object.assign({}, h, { run: this.migrateRun(h.run, restoredDb) }));
+            this.commit({ db: restoredDb, order: d.order || {}, opts: Object.assign({}, st.opts, d.opts || {}), run, inventory, history, tab: run ? "run" : (history.length ? "history" : "calc") });
+            this.say("Backup restaurado.");
+          } catch (err) { this.say("Arquivo inválido."); }
+          e.target.value = "";
+        };
+        r.readAsText(f);
+      };
+      V.askReset = () => this.setState({
+        modal: {
+          mode: "confirm", title: "Voltar ao padrão?", label: "Restaurar padrão",
+          text: "Isso apaga modelos, peças e preços que você editou, voltando ao cadastro original.",
+          run: () => { this.commit({ db: JSON.parse(JSON.stringify(this.seed())), order: {}, modal: null }); this.say("Cadastro restaurado."); }
+        }
+      });
+    }
+
+    return V;
+  }
+}
+
+</script>
+</body>
+</html>

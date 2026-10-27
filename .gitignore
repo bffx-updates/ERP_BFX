@@ -1,0 +1,5 @@
+node_modules/
+erp/dist/
+erp/dist-demo/
+*.log
+.claude/settings.local.json
